@@ -217,7 +217,6 @@ public class forgotPassword extends javax.swing.JFrame {
 
     } catch (Exception e) {
         // Xử lý lỗi khi kết nối cơ sở dữ liệu hoặc thực thi truy vấn
-        e.printStackTrace();
         JOptionPane.showMessageDialog(this, "Có lỗi xảy ra khi kết nối cơ sở dữ liệu.");
     } finally {
         try {
