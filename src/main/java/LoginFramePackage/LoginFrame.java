@@ -1,4 +1,3 @@
-
 package LoginFramePackage;
 
 import RegisterFramePackage.RegisterFrame;

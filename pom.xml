@@ -1,28 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" 
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+
     <groupId>com.mycompany</groupId>
     <artifactId>App_Project_SE</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
+
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.release>23</maven.compiler.release>
-        <!-- Cập nhật mainClass đúng với ProjectSE -->
-        <exec.mainClass>com.mycompany.app_project_se.App_Project_SE</exec.mainClass>
+        <exec.mainClass>com.mycompany.app_project_se.App_Project_SE</exec.mainClass> <!-- Main class -->
     </properties>
+
     <build>
         <resources>
-            <!-- Chỉ định thư mục resources -->
+            <resource>
+                <directory>${basedir}</directory> <!-- Thư mục gốc của dự án (nơi chứa pom.xml) -->
+                <includes>
+                    <include>a.env</include> <!-- Bao gồm file a.env -->
+                </includes>
+            </resource>
             <resource>
                 <directory>src/main/resources</directory>
                 <includes>
-                    <!-- Bao gồm tất cả các file từ thư mục resources -->
-                    <include>**/*</include>
+                    <include>**/*</include> <!-- Bao gồm tất cả các file từ thư mục resources -->
                 </includes>
             </resource>
         </resources>
+
         <plugins>
+            <!-- Plugin để tạo JAR -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
@@ -31,12 +41,13 @@
                     <archive>
                         <manifest>
                             <addClasspath>true</addClasspath>
-                            <!-- Cập nhật mainClass đúng với ProjectSE -->
                             <mainClass>com.mycompany.app_project_se.App_Project_SE</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
             </plugin>
+
+            <!-- Plugin biên dịch Java -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -47,13 +58,44 @@
                     </compilerArgs>
                 </configuration>
             </plugin>
+
+            <!-- Plugin để tạo Fat JAR -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>3.2.4</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <transformers>
+                        <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                            <mainClass>com.mycompany.app_project_se.App_Project_SE</mainClass> <!-- Cập nhật mainClass -->
+                        </transformer>
+                    </transformers>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
+
     <dependencies>
+        <!-- Dependency cho dotenv -->
         <dependency>
             <groupId>io.github.cdimascio</groupId>
             <artifactId>java-dotenv</artifactId>
             <version>5.2.2</version>
+        </dependency>
+
+        <!-- Dependency cho MySQL -->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>9.0.0</version> <!-- Phiên bản mới nhất có thể thay đổi -->
         </dependency>
     </dependencies>
 </project>
