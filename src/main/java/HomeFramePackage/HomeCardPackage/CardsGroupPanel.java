@@ -26,7 +26,7 @@ public class CardsGroupPanel extends javax.swing.JPanel {
              Statement stmt = conn.createStatement()) {
 
             // Lấy tổng số hộ
-            String sqlTongSoHo = "SELECT COUNT(DISTINCT soPhong) AS tongSoHo FROM hoa_don where thang = 11 and daDong = 0";
+            String sqlTongSoHo = "SELECT COUNT(DISTINCT soPhong) AS tongSoHo FROM hoa_don where thang = MONTH(CURDATE()) and daDong = 0";
             ResultSet rsTongSoHo = stmt.executeQuery(sqlTongSoHo);
             int tongSoHo = 0;
             if (rsTongSoHo.next()) {
@@ -34,7 +34,7 @@ public class CardsGroupPanel extends javax.swing.JPanel {
             }
             
             // Lấy tổng tiền thu phí
-            String sqlTongTienThuPhi = "SELECT SUM(tongSoTienThu) AS tongTienThuPhi FROM hoa_don WHERE thang = 11 and daDong = 1";
+            String sqlTongTienThuPhi = "SELECT SUM(tongSoTienThu) AS tongTienThuPhi FROM hoa_don WHERE thang = MONTH(CURDATE()) and daDong = 1";
             ResultSet rsTongTienThuPhi = stmt.executeQuery(sqlTongTienThuPhi);
             int tongTienThuPhi = 0;
             if (rsTongTienThuPhi.next()) {
@@ -42,28 +42,28 @@ public class CardsGroupPanel extends javax.swing.JPanel {
             }
             
             // Lấy tổng công nợ
-            String sqlTongCongNo = "SELECT SUM(tongSoTienThu) AS tongCongNo FROM hoa_don WHERE thang = 11 and daDong = 0";
+            String sqlTongCongNo = "SELECT SUM(tongSoTienThu) AS tongCongNo FROM hoa_don WHERE thang = MONTH(CURDATE()) and daDong = 0";
             ResultSet rsTongCongNo = stmt.executeQuery(sqlTongCongNo);
             int tongCongNo = 0;
             if (rsTongCongNo.next()) {
                 tongCongNo = rsTongCongNo.getInt("tongCongNo");
             }
-            /*
+            
             // Lấy tổng đóng góp thiện nguyện
-            String sqlTongDongGopThienNguyen = "SELECT SUM(tien_tu_thien) AS tongTienDongGopThienNguyen FROM tu_thien";
+            String sqlTongDongGopThienNguyen = "SELECT SUM(soTienThu) AS tongTienDongGopThienNguyen FROM tu_thien where MONTH(ngayDong) = MONTH(CURDATE())";
             ResultSet rsTongTienDongGop = stmt.executeQuery(sqlTongDongGopThienNguyen);
-            double tongTienDongGopThienNguyen = 0;
+            int tongTienDongGopThienNguyen = 0;
             if (rsTongTienDongGop.next()) {
-                tongTienDongGopThienNguyen = rsTongTienDongGop.getDouble("tongTienDongGopThienNguyen");
+                tongTienDongGopThienNguyen = rsTongTienDongGop.getInt("tongTienDongGopThienNguyen");
             }
-            */
+            
             DecimalFormat formatter = new DecimalFormat("#,###");
             // Cập nhật dữ liệu vào các CardPanel
             if (nhanKhauUrl != null && thuPhiUrl != null && congNoUrl != null && tuThienUrl != null) {
                 cardPanel1.setData(new CardModel(new ImageIcon(nhanKhauUrl), "Số hộ chưa đóng phí", formatter.format(tongSoHo)));
                 cardPanel2.setData(new CardModel(new ImageIcon(thuPhiUrl), "Tổng tiền đã thu", formatter.format(tongTienThuPhi)));
                 cardPanel3.setData(new CardModel(new ImageIcon(congNoUrl), "Tổng tiền chưa thu", formatter.format(tongCongNo)));
-                cardPanel4.setData(new CardModel(new ImageIcon(tuThienUrl), "Tổng đóng góp", "1,000,000"));
+                cardPanel4.setData(new CardModel(new ImageIcon(tuThienUrl), "Tổng đóng góp", formatter.format(tongTienDongGopThienNguyen)));
             } else {
                 System.out.println("Không tìm thấy một hoặc nhiều hình ảnh.");
             }

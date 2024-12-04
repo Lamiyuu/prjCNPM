@@ -30,10 +30,10 @@ public class PieChartGroupPanel extends javax.swing.JPanel {
      */
     private void loadDataFromDatabase() {
         try (Connection con = DatabaseConnection.getConnection()) {
-            String query1 = "SELECT COUNT(DISTINCT soPhong) AS ho_chua_hoan_thanh FROM hoa_don WHERE thang = 11 AND daDong = 0";
-            String query2 = "SELECT COUNT(DISTINCT soPhong) AS ho_da_hoan_thanh FROM hoa_don WHERE thang = 11 AND daDong = 1";
-            String query3 = "SELECT SUM(tongSoTienThu) AS tien_da_thu FROM hoa_don WHERE thang = 11 AND daDong = 1";
-            String query4 = "SELECT SUM(tongSoTienThu) AS tien_chua_thu FROM hoa_don WHERE thang = 11 AND daDong = 0";
+            String query1 = "SELECT COUNT(DISTINCT soPhong) AS ho_chua_hoan_thanh FROM hoa_don WHERE thang = MONTH(CURDATE()) AND daDong = 0";
+            String query2 = "SELECT COUNT(DISTINCT soPhong) AS ho_da_hoan_thanh FROM hoa_don WHERE thang = MONTH(CURDATE()) AND daDong = 1";
+            String query3 = "SELECT SUM(tongSoTienThu) AS tien_da_thu FROM hoa_don WHERE thang = MONTH(CURDATE()) AND daDong = 1";
+            String query4 = "SELECT SUM(tongSoTienThu) AS tien_chua_thu FROM hoa_don WHERE thang = MONTH(CURDATE()) AND daDong = 0";
 
             // Thực hiện từng truy vấn và lấy kết quả tương ứng
             PreparedStatement ps1 = con.prepareStatement(query1);
