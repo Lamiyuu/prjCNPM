@@ -266,6 +266,11 @@ public class TaiKhoanPanel extends javax.swing.JPanel {
             table.getColumnModel().getColumn(10).setMaxWidth(0);
         }
 
+        txtSearch.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtSearchActionPerformed(evt);
+            }
+        });
         txtSearch.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 txtSearchKeyReleased(evt);
@@ -479,6 +484,10 @@ public class TaiKhoanPanel extends javax.swing.JPanel {
             }
         }
     }//GEN-LAST:event_buttonDeleteActionPerformed
+
+    private void txtSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSearchActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtSearchActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

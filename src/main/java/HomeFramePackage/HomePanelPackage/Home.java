@@ -2,6 +2,7 @@
 package HomeFramePackage.HomePanelPackage;
 
 import HomeFramePackage.HomeMenuPackage.EventMenuSelected;
+import NhanKhauPackage.NhanKhauPanel;
 import KhoanThuPackage.KhoanThuPanel;
 import LoginFramePackage.LoginFrame;
 import Model.ModelTaiKhoan;
@@ -18,7 +19,6 @@ import java.awt.Font;
 import java.awt.Toolkit;
 import javax.swing.UIManager;
 import raven.popup.GlassPanePopup;
-import raven.toast.Notifications;
 public class Home extends javax.swing.JFrame {
     
     private static ModelTaiKhoan taiKhoan;
@@ -29,6 +29,7 @@ public class Home extends javax.swing.JFrame {
 
     public static void setTaiKhoan(ModelTaiKhoan taikhoan) {
         Home.taiKhoan = taikhoan;
+        
     }
     
     public Home() {
@@ -47,6 +48,7 @@ public class Home extends javax.swing.JFrame {
                     case 2 -> setForm(new KhoanThuPanel(taiKhoan));
                     case 3 -> setForm(new ThuPhiPanel());
                     case 4 -> setForm(new TuThienPanel());
+                    case 5 -> setForm(new NhanKhauPanel(taiKhoan));
                     case 7 -> {
                         int confirm = javax.swing.JOptionPane.showConfirmDialog(
                             Home.this,

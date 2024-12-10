@@ -5,6 +5,7 @@ import Model.ModelHoGiaDinh;
 import Model.ModelHoaDon;
 import Model.ModelKhoanThu;
 import Model.ModelLoaiKhoanThu;
+import Model.ModelNhanKhau;
 import Model.ModelTaiKhoan;
 import Model.ModelThongBao;
 import Model.ModelThuPhi;
@@ -188,6 +189,28 @@ public class Service {
                 }
                 break;
                 
+            case "ModelNhanKhau":
+                while (r.next()) {
+                    String ID = r.getString("ID");
+                    String hoTen = r.getString("hoTen");
+                    String CCCD = r.getString("CCCD");
+                    Date ngaySinh = r.getDate("ngaySinh");
+                    boolean gioiTinh = r.getBoolean("gioiTinh");
+                    String TTTV = r.getString("TTTV");
+                    String soPhong = r.getString("soPhong");
+                    ModelNhanKhau modelNhanKhau = new ModelNhanKhau(
+                        ID, 
+                        hoTen,
+                        CCCD,
+                        ngaySinh,
+                        gioiTinh,
+                        TTTV,    
+                        soPhong
+                    );
+                    
+                    result.add((T) modelNhanKhau);
+                }
+                break;     
             default:
                 throw new IllegalArgumentException("Unsupported class: " + clazz.getName());
         }
@@ -400,7 +423,13 @@ public class Service {
                 }
                 baseQuery += " ORDER BY soPhong";
                 return baseQuery;
-                
+            case "ModelNhanKhau":
+                baseQuery = "SELECT * FROM `nhan_khau`";
+                if (searchInput != null && !searchInput.isEmpty()) {
+                    baseQuery += " WHERE hoTen LIKE ? OR soPhong LIKE ?";
+                }
+                baseQuery += " ORDER BY soPhong";
+                return baseQuery;    
             default:
                 throw new IllegalArgumentException("Unsupported class: " + clazz.getName());
         }
@@ -427,8 +456,9 @@ public class Service {
             ((ModelTaiKhoan) data).setID(generatedID);  
         } else if (data instanceof ModelThuPhi) {
             ((ModelThuPhi) data).setID(generatedID);  
-        }
-
+        } else if (data instanceof ModelNhanKhau) {
+            ((ModelNhanKhau) data).setID(generatedID); 
+        }    
         // Xây dựng câu lệnh INSERT
         String query = buildInsertQuery(tableName, columnNames);
 
@@ -498,7 +528,9 @@ public class Service {
             case "ModelThuPhi":
                 return "thu_phi";
             case "ModelHoaDon":
-                return "hoa_don";    
+                return "hoa_don";
+            case "ModelNhanKhau":
+                return "nhan_khau";
             default:
                 throw new IllegalArgumentException("Unsupported class: " + clazz.getName());
         }
@@ -520,7 +552,9 @@ public class Service {
             case "ModelThuPhi":
                 return List.of("ID","soPhong","ngayDong","nguoiDong","ghiChu","IDKhoanThu","soTienThu","thang");
             case "ModelHoaDon":
-                return List.of("ID","soPhong","tongSoTienThu","thang","daDong");
+                return List.of("ID", "soPhong", "tongSoTienThu", "thang", "daDong");
+            case "ModelNhanKhau":
+                return List.of("ID", "hoTen", "ngaySinh", "CCCD", "TTTV", "gioiTinh", "soPhong");
             default:
                 throw new IllegalArgumentException("Unsupported class: " + clazz.getName());
         }
@@ -602,7 +636,10 @@ public class Service {
             return ((ModelHoaDon) data).getID();
         } else if (data instanceof ModelThuPhi) {
             return ((ModelThuPhi) data).getID();
+        } else if (data instanceof ModelNhanKhau) {
+            return ((ModelNhanKhau) data).getID();
         }
+        
         throw new IllegalArgumentException("Không xác định được khóa chính cho model này.");
     }
     
@@ -716,7 +753,8 @@ public class Service {
                 
             case "ModelHoGiaDinh" -> // Truy vấn cho ModelTaiKhoan
                 baseQuery = "SELECT * FROM `ho_gia_dinh` ORDER BY soPhong LIMIT ?, ?";
-                
+            case "ModelNhanKhau" -> // Truy vấn cho ModelTaiKhoan
+                baseQuery = "SELECT * FROM `nhan_khau` ORDER BY soPhong LIMIT ?, ?";    
             default -> throw new IllegalArgumentException("Unsupported class: " + clazz.getName());
         }
 

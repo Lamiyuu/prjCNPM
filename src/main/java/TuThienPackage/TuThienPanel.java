@@ -81,8 +81,7 @@ public class TuThienPanel extends javax.swing.JPanel {
         } catch (SQLException e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, "Lỗi khi tải danh sách loại khoản thu!", "Lỗi", JOptionPane.ERROR_MESSAGE);
-        }
-        
+        }  
     }
     
     private void loadData(int thang, String IDKhoanThu){
