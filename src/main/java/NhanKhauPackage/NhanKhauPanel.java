@@ -90,6 +90,11 @@ public class NhanKhauPanel extends javax.swing.JPanel {
         
         comboBoxTang.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
+                if(comboBoxTang.getSelectedItem().toString().equals("Tất cả")){
+                    comboBoxPhong.removeAllItems();
+                    comboBoxPhong.addItem("Tất cả");
+                    return;
+                }
                 String selectedValue = (String) comboBoxTang.getSelectedItem();  // Lấy giá trị từ jComboBox1
 
                 // Xóa các mục cũ trong jComboBox2
@@ -170,7 +175,6 @@ public class NhanKhauPanel extends javax.swing.JPanel {
         jTextField1 = new javax.swing.JTextField();
         comboBoxTang = new javax.swing.JComboBox<>();
         comboBoxPhong = new javax.swing.JComboBox<>();
-        jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
@@ -213,7 +217,11 @@ public class NhanKhauPanel extends javax.swing.JPanel {
 
         jButton1.setText("Thêm");
 
-        jTextField1.setText("........");
+        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField1ActionPerformed(evt);
+            }
+        });
         jTextField1.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 jTextField1KeyReleased(evt);
@@ -221,15 +229,12 @@ public class NhanKhauPanel extends javax.swing.JPanel {
         });
 
         comboBoxTang.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tất cả", "1", "2", "3", "4", "5", "6", "7", "8", "9" }));
-        comboBoxTang.addActionListener(new java.awt.event.ActionListener() {
+
+        comboBoxPhong.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                comboBoxTangActionPerformed(evt);
+                comboBoxPhongActionPerformed(evt);
             }
         });
-
-        comboBoxPhong.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tất cả", " " }));
-
-        jButton2.setText("Tra cứu");
 
         jButton3.setText("Sửa phòng");
 
@@ -276,8 +281,6 @@ public class NhanKhauPanel extends javax.swing.JPanel {
                         .addGap(36, 36, 36))
                     .addGroup(panelLayout.createSequentialGroup()
                         .addComponent(comboBoxPhong, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(45, 45, 45)
-                        .addComponent(jButton2)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
             .addGroup(panelLayout.createSequentialGroup()
                 .addGap(370, 370, 370)
@@ -308,7 +311,6 @@ public class NhanKhauPanel extends javax.swing.JPanel {
                 .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(comboBoxTang, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(comboBoxPhong, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2)
                     .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(28, 28, 28)
                 .addComponent(scroll, javax.swing.GroupLayout.PREFERRED_SIZE, 365, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -329,20 +331,31 @@ public class NhanKhauPanel extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void comboBoxTangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboBoxTangActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_comboBoxTangActionPerformed
-
     private void jTextField1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyReleased
         searchData(jTextField1.getText().trim());
     }//GEN-LAST:event_jTextField1KeyReleased
+
+    private void comboBoxPhongActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboBoxPhongActionPerformed
+        if(comboBoxPhong.getSelectedIndex() == 0){
+            if(comboBoxTang.getSelectedIndex() != 0){
+                searchData(comboBoxTang.getSelectedItem().toString());
+            }else{
+                loadData(1);
+            } 
+        }else if(comboBoxPhong.getSelectedItem() != null){
+            searchData(comboBoxPhong.getSelectedItem().toString());
+        }
+    }//GEN-LAST:event_comboBoxPhongActionPerformed
+
+    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField1ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> comboBoxPhong;
     private javax.swing.JComboBox<String> comboBoxTang;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
