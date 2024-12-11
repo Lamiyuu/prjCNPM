@@ -48,7 +48,6 @@ public class Home extends javax.swing.JFrame {
                     case 2 -> setForm(new KhoanThuPanel(taiKhoan));
                     case 3 -> setForm(new ThuPhiPanel());
                     case 4 -> setForm(new TuThienPanel());
-                    case 5 -> setForm(new NhanKhauPanel(taiKhoan));
                     case 7 -> {
                         int confirm = javax.swing.JOptionPane.showConfirmDialog(
                             Home.this,

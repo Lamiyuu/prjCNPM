@@ -132,7 +132,7 @@ public class KhoanThuPanel extends javax.swing.JPanel {
             model.setRowCount(0);
 
             // Tính số bản ghi mỗi trang
-            int recordsPerPage = 20;
+            int recordsPerPage = 15;
             int offset = (page - 1) * recordsPerPage;  // Tính offset dựa trên trang
 
             // Lấy dữ liệu của trang hiện tại
@@ -171,7 +171,7 @@ public class KhoanThuPanel extends javax.swing.JPanel {
             // Kiểm tra và hiển thị dữ liệu
             if (list != null) {
                 for (ModelKhoanThu d : list) {
-                    model.addRow(d.toTableRow(table.getRowCount() + 1));
+                    model.addRow(d.toTableRow(table.getRowCount() + 1 ));
                 }
             } else {
                 JOptionPane.showMessageDialog(null, "Không tìm thấy dữ liệu phù hợp!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
