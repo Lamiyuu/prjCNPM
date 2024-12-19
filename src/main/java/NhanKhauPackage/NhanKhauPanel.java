@@ -437,7 +437,7 @@ public class NhanKhauPanel extends javax.swing.JPanel {
 
                     // Đóng Popup và thông báo thành công
                     pc.closePopup();
-                    Notifications.getInstance().show(Notifications.Type.SUCCESS, "Thonh tin đã được chỉnh sửa thành công");
+                    Notifications.getInstance().show(Notifications.Type.SUCCESS, "Thông tin đã được chỉnh sửa thành công");
                     System.out.println(updatedNhanKhau.getID());
                     loadData(currentPage);  
                     initPagination();

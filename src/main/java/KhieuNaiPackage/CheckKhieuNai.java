@@ -4,16 +4,19 @@
  */
 package KhieuNaiPackage;
 
+import Model.ModelKhieuNai;
+
 /**
  *
  * @author ADMIN
  */
 public class CheckKhieuNai extends javax.swing.JPanel {
-
+    private ModelKhieuNai khieuNai;
     /**
      * Creates new form CheckKhieuNai
      */
-    public CheckKhieuNai() {
+    public CheckKhieuNai(ModelKhieuNai khieuNai) {
+        this.khieuNai = khieuNai;
         initComponents();
     }
 

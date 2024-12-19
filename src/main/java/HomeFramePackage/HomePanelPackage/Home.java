@@ -2,10 +2,12 @@
 package HomeFramePackage.HomePanelPackage;
 
 import HomeFramePackage.HomeMenuPackage.EventMenuSelected;
+import KhieuNaiPackage.KhieuNaiPanel;
 import NhanKhauPackage.NhanKhauPanel;
 import KhoanThuPackage.KhoanThuPanel;
 import LoginFramePackage.LoginFrame;
 import Model.ModelTaiKhoan;
+import NhanKhauPackage.HoGiaDinhPanel;
 import TaiKhoanPackage.TaiKhoanPanel;
 import ThuPhiPackage.ThuPhiPanel;
 import TuThienPackage.TuThienPanel;
@@ -48,7 +50,8 @@ public class Home extends javax.swing.JFrame {
                     case 2 -> setForm(new KhoanThuPanel(taiKhoan));
                     case 3 -> setForm(new ThuPhiPanel(taiKhoan));
                     case 4 -> setForm(new TuThienPanel());
-                    case 5 -> setForm(new NhanKhauPanel(taiKhoan));
+                    case 5 -> setForm(new HoGiaDinhPanel(taiKhoan));
+                    case 6 -> setForm(new KhieuNaiPanel(taiKhoan));
                     case 7 -> {
                         int confirm = javax.swing.JOptionPane.showConfirmDialog(
                             Home.this,

@@ -57,7 +57,7 @@ public class CreateKhieuNai extends javax.swing.JPanel {
 
         jLabel5.setText("Phân loại:");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Hạ tầng", "Vệ sinh", "An ninh", "Dịch vụ", "Góp ý" }));
 
         jLabel8.setText("Ngày gửi:");
 

@@ -3,6 +3,7 @@ package Database;
 import Model.Model;
 import Model.ModelHoGiaDinh;
 import Model.ModelHoaDon;
+import Model.ModelKhieuNai;
 import Model.ModelKhoanThu;
 import Model.ModelLoaiKhoanThu;
 import Model.ModelNhanKhau;
@@ -212,7 +213,35 @@ public class Service {
                     
                     result.add((T) modelNhanKhau);
                 }
-                break;     
+                break;  
+                
+                case "ModelKhieuNai":
+                while (r.next()) {
+                    String ID = r.getString("ID");
+                    String hoTen = r.getString("hoTen");
+                    String phanLoai = r.getString("phanLoai");
+                    String noiDung = r.getString("noiDung");
+                    String tieuDe = r.getString("tieuDe");
+                    String xetDuyet = r.getString("xetDuyet");
+                    String hoiDap = r.getString("hoiDap");
+                    Date ngayGui = r.getDate("ngayGui");
+                    Date ngayDuyet = r.getDate("ngayDuyet");
+                    ModelKhieuNai modelKhieuNai = new ModelKhieuNai(
+                        ID, 
+                        hoTen, 
+                        phanLoai, 
+                        tieuDe, 
+                        noiDung, 
+                        hoiDap, 
+                        xetDuyet, 
+                        ngayGui, 
+                        ngayDuyet
+                    );
+                    
+                    result.add((T) modelKhieuNai);
+                }
+                break; 
+                
             default:
                 throw new IllegalArgumentException("Unsupported class: " + clazz.getName());
         }
@@ -533,6 +562,8 @@ public class Service {
                 return "hoa_don";
             case "ModelNhanKhau":
                 return "nhan_khau";
+            case "ModelKhieuNai":
+                return "khieu_nai";
             default:
                 throw new IllegalArgumentException("Unsupported class: " + clazz.getName());
         }
@@ -557,6 +588,8 @@ public class Service {
                 return List.of("ID", "soPhong", "tongSoTienThu", "thang", "daDong");
             case "ModelNhanKhau":
                 return List.of("ID", "hoTen", "ngaySinh", "CCCD", "TTTV", "gioiTinh", "soPhong", "sdt");
+            case "ModelKhieuNai":
+                return List.of("ID", "hoTen", "ngayGui", "ngayDuyet", "tieuDe", "noiDung", "xetDuyet", "hoiDap", "phanLoai");    
             default:
                 throw new IllegalArgumentException("Unsupported class: " + clazz.getName());
         }
@@ -757,8 +790,13 @@ public class Service {
                 
             case "ModelHoGiaDinh" -> // Truy vấn cho ModelTaiKhoan
                 baseQuery = "SELECT * FROM `ho_gia_dinh` ORDER BY soPhong LIMIT ?, ?";
+            
             case "ModelNhanKhau" -> // Truy vấn cho ModelTaiKhoan
                 baseQuery = "SELECT * FROM `nhan_khau` ORDER BY soPhong LIMIT ?, ?";    
+            
+            case "ModelKhieuNai" -> // Truy vấn cho ModelTaiKhoan
+                baseQuery = "SELECT * FROM `khieu_nai` ORDER BY xetDuyet LIMIT ?, ?"; 
+                
             default -> throw new IllegalArgumentException("Unsupported class: " + clazz.getName());
         }
 
