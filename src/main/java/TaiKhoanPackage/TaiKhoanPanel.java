@@ -6,6 +6,7 @@ import Model.CheckBoxTableHeader;
 import Model.TableHeaderAlignment;
 import Model.ModelTaiKhoan;
 import PhanTrangPackage.EventPagination;
+import PhanTrangPackage.Pagination;
 import PhanTrangPackage.Style.PaginationItemRenderStyle1;
 import com.formdev.flatlaf.FlatClientProperties;
 import java.awt.Component;
@@ -15,7 +16,9 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
@@ -28,13 +31,13 @@ import raven.toast.Notifications;
 
 public class TaiKhoanPanel extends javax.swing.JPanel {
     private ModelTaiKhoan taiKhoan;
-    private int currentPage = -1;
+    private int currentPage = -1; 
+    private TaiKhoanController controller;
     public TaiKhoanPanel(ModelTaiKhoan taiKhoan) {
         this.taiKhoan = taiKhoan;
         initComponents();
         init();
-        initPagination();
-        loadData(1); 
+        this.controller = new TaiKhoanController(this, taiKhoan);
     }
     private void init(){
         
@@ -109,115 +112,36 @@ public class TaiKhoanPanel extends javax.swing.JPanel {
             e.printStackTrace();
         }
      }
-     
-    public Service service = new Service();
-    private void initPagination() {
-        // Sử dụng pagination1 thay vì pagination
-        pagination1.setPaginationItemRender(new PaginationItemRenderStyle1());
-
-        // Lắng nghe sự kiện thay đổi trang
-        pagination1.addEventPagination(new EventPagination() {
-            public void pageChanged(int page) {
-                loadData(page); // Tải dữ liệu khi trang thay đổi
+    
+    public void addControllerListener(TaiKhoanController controller) {
+        edit.addActionListener(controller::buttonEditActionPerformed);
+        approve.addActionListener(controller::buttonApproveActionPerformed);
+        delete.addActionListener(controller::buttonDeleteActionPerformed);
+        txtSearch.addKeyListener(new java.awt.event.KeyAdapter() {
+            @Override
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                controller.txtSearchKeyReleased(evt);
             }
         });
-
-        // Tính toán số trang
-        int totalCount = service.getTotalCount("tai_khoan");  // Lấy tổng số bản ghi từ cơ sở dữ liệu
-        int recordsPerPage = 10;  // Số bản ghi trên mỗi trang
-        int totalPages = (int) Math.ceil((double) totalCount / recordsPerPage);  // Tổng số trang
-
-        pagination1.setPagegination(1, totalPages);  // Cập nhật trang hiện tại và tổng số trang
-
-        // Thêm phân trang vào giao diện
-        panel.add(pagination1);
-        panel.revalidate();
-        panel.repaint();
+    }
+    
+    public Pagination getPagination1() {
+        return pagination1;
     }
 
-
-    // Phương thức tải dữ liệu cho bảng
-    private void loadData(int page) {
-        currentPage = page;
-        try {
-            // Lấy model của bảng
-            DefaultTableModel model = (DefaultTableModel) table.getModel();
-
-            // Nếu bảng đang chỉnh sửa, dừng chỉnh sửa ô
-            if (table.isEditing()) {
-                table.getCellEditor().stopCellEditing();
-            }
-
-            // Xóa hết các dòng hiện tại trong bảng
-            model.setRowCount(0);
-
-            // Tính số bản ghi mỗi trang
-            int recordsPerPage = 10;
-            int offset = (page - 1) * recordsPerPage;  // Tính offset dựa trên trang
-
-            // Khởi tạo danh sách
-            List<ModelTaiKhoan> list = new ArrayList<>();
-
-            // Lấy dữ liệu phù hợp
-            if (taiKhoan.isAdmin()) {
-                list = service.getPage(ModelTaiKhoan.class, offset, recordsPerPage);
-            } else {
-                list.add(taiKhoan);
-            }
-            // Thêm các dòng vào bảng
-            for (ModelTaiKhoan d : list) {
-                model.addRow(d.toTableRow(table.getRowCount() + 1));  // Thêm dòng vào bảng
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public JPanel getPanel() {
+        return panel;
     }
-    // Phuong thuc de Search trong bang
-    private void searchData(String search){
-        try {
-            DefaultTableModel model =(DefaultTableModel)table.getModel();
-            if(table.isEditing()){
-                table.getCellEditor().stopCellEditing();
-            }
-            model.setRowCount(0);
-            // Khởi tạo danh sách
-            List<ModelTaiKhoan> list = new ArrayList<>();
 
-            // Lấy dữ liệu phù hợp
-            if (taiKhoan.isAdmin()) {
-                list = service.getAll(ModelTaiKhoan.class,search);
-            } else {
-                list.add(taiKhoan);
-            }
-            
-            for(ModelTaiKhoan d:list){
-                model.addRow(d.toTableRow(table.getRowCount() + 1));
-            }
-        } catch(Exception e){
-            e.printStackTrace();
-        }
+    public JTable getTable() {
+        return table;
     }
-    public List<ModelTaiKhoan> getSelectedTaiKhoan() {
-        List<ModelTaiKhoan> list = new ArrayList<>();
 
-        for (int i = 0; i < table.getRowCount(); i++) {
-            if ((boolean) table.getValueAt(i, 0)) {  // Kiểm tra trạng thái checkbox ở cột đầu tiên
-                Object data = table.getValueAt(i, 10);  // Lấy giá trị ở cột thứ 1
-
-                // Kiểm tra kiểu dữ liệu và ép kiểu nếu đúng
-                if (data instanceof ModelTaiKhoan) {
-                    ModelTaiKhoan taiKhoan = (ModelTaiKhoan) data;
-                    list.add(taiKhoan);
-                } else {
-                    // Xử lý lỗi nếu không phải kiểu ModelTaiKhoan
-                    System.out.println("Dữ liệu không phải kiểu ModelTaiKhoan tại dòng " + i);
-                }
-            }
-        }
-
-        return list;
+    public JTextField getTxtSearch() {
+        return txtSearch;
     }
+    
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -226,9 +150,9 @@ public class TaiKhoanPanel extends javax.swing.JPanel {
         scroll = new javax.swing.JScrollPane();
         table = new javax.swing.JTable();
         txtSearch = new javax.swing.JTextField();
-        buttonEdit = new Model.ButtonAction();
-        buttonDelete = new Model.ButtonAction();
-        buttonApprove = new Model.ButtonAction();
+        edit = new Model.ButtonAction();
+        delete = new Model.ButtonAction();
+        approve = new Model.ButtonAction();
         lbTitle = new javax.swing.JLabel();
         pagination1 = new PhanTrangPackage.Pagination();
 
@@ -296,37 +220,11 @@ public class TaiKhoanPanel extends javax.swing.JPanel {
             table.getColumnModel().getColumn(10).setMaxWidth(0);
         }
 
-        txtSearch.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtSearchActionPerformed(evt);
-            }
-        });
-        txtSearch.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                txtSearchKeyReleased(evt);
-            }
-        });
+        edit.setText("Chỉnh sửa");
 
-        buttonEdit.setText("Chỉnh sửa");
-        buttonEdit.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                buttonEditActionPerformed(evt);
-            }
-        });
+        delete.setText("Xóa");
 
-        buttonDelete.setText("Xóa");
-        buttonDelete.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                buttonDeleteActionPerformed(evt);
-            }
-        });
-
-        buttonApprove.setText("Duyệt");
-        buttonApprove.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                buttonApproveActionPerformed(evt);
-            }
-        });
+        approve.setText("Duyệt");
 
         lbTitle.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         lbTitle.setText("Tài khoản");
@@ -348,11 +246,11 @@ public class TaiKhoanPanel extends javax.swing.JPanel {
                                 .addComponent(lbTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGap(450, 450, 450)
-                            .addComponent(buttonEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(edit, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(buttonDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(delete, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(buttonApprove, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(approve, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(39, Short.MAX_VALUE))
         );
         panelLayout.setVerticalGroup(
@@ -362,9 +260,9 @@ public class TaiKhoanPanel extends javax.swing.JPanel {
                 .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(panelLayout.createSequentialGroup()
                         .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(buttonEdit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(buttonDelete, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(buttonApprove, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(edit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(delete, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(approve, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(9, 9, 9))
                     .addGroup(panelLayout.createSequentialGroup()
                         .addComponent(lbTitle)
@@ -391,141 +289,11 @@ public class TaiKhoanPanel extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void buttonEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonEditActionPerformed
-        
-        List<ModelTaiKhoan> list = getSelectedTaiKhoan();
-        if (list.isEmpty()){
-            Notifications.getInstance().show(Notifications.Type.WARNING, "Hãy chọn mục để chỉnh sửa!");
-        }else if(list.size() != 1){
-            Notifications.getInstance().show(Notifications.Type.WARNING, "Hãy chọn duy nhất một mục!");
-        }else{
-        
-        // Truyền đối tượng tài khoản hiện tại vào form để chỉnh sửa
-        ModelTaiKhoan currentTaiKhoan = (ModelTaiKhoan) getSelectedTaiKhoan().get(0); // Lấy đối tượng tài khoản hiện tại, ví dụ từ cơ sở dữ liệu hoặc bảng
-        // Tạo một form chỉnh sửa tài khoản và truyền đối tượng tài khoản hiện tại vào form
-        EditTaiKhoan editForm = new EditTaiKhoan(currentTaiKhoan);
-        // Tạo một cửa sổ Popup để chỉnh sửa
-        DefaultOption option = new DefaultOption() {
-            @Override
-            public boolean closeWhenClickOutside() {
-                return true;
-            }
-        };
-        String actions[] = new String[]{"Thoát", "Đồng ý"};
-
-        // Hiển thị Popup và xử lý sự kiện khi nhấn nút Save hoặc Cancel
-        GlassPanePopup.showPopup(new SimplePopupBorder(editForm, "Chỉnh sửa tài khoản", actions, (pc, i) -> {
-            if (i == 1) {  // Nếu nhấn Save
-                try {
-                    // Lấy dữ liệu từ form chỉnh sửa và truyền tài khoản hiện tại vào phương thức getData
-                    
-                    ModelTaiKhoan updatedTaiKhoan = editForm.getData(currentTaiKhoan);  // Truyền tài khoản hiện tại vào form để lấy dữ liệu cập nhật
-                    if(updatedTaiKhoan != null){
-                        service.edit(updatedTaiKhoan);  // Gọi phương thức edit trong ServiceTaiKhoan để cập nhật tài khoản
-                        // Đóng Popup và thông báo thành công
-                        pc.closePopup();
-                        Notifications.getInstance().show(Notifications.Type.SUCCESS, "Tài khoản đã được chỉnh sửa thành công");
-                    } 
-
-                    // Tải lại dữ liệu từ database để cập nhật bảng
-                    loadData(currentPage);  // Hàm load lại dữ liệu sau khi chỉnh sửa
-                    initPagination();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    JOptionPane.showMessageDialog(this, "Đã xảy ra lỗi khi chỉnh sửa tài khoản!");
-                }
-            } else {  // Nếu nhấn Cancel
-                pc.closePopup();
-            }
-        }), option);
-        }
-    }//GEN-LAST:event_buttonEditActionPerformed
-
-    private void buttonApproveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonApproveActionPerformed
-        
-        List<ModelTaiKhoan> list = getSelectedTaiKhoan();
-        if (list.isEmpty()){
-            Notifications.getInstance().show(Notifications.Type.WARNING, "Hãy chọn mục để chỉnh sửa!");
-        } else {
-            // Kiểm tra xem có tài khoản nào đã duyệt chưa
-            boolean hasApproved = false;
-            for (ModelTaiKhoan tk : list) {
-                if ("Đã duyệt".equals(tk.getGhiChu())) {
-                    hasApproved = true;
-                    break; // Nếu có tài khoản đã duyệt thì không cần kiểm tra tiếp
-                }
-            }
-
-            if (hasApproved) {
-                // Nếu có tài khoản đã duyệt, thông báo cho người dùng
-                JOptionPane.showMessageDialog(this, "Trong các mục đã chọn có tài khoản đã duyệt rồi!");
-            } else {
-                // Đếm số tài khoản đã chọn
-                int count = list.size();
-
-                // Duyệt qua từng tài khoản và cập nhật "Đã duyệt"
-                for (ModelTaiKhoan tk : list) {
-                    tk.setGhiChu("Đã duyệt");
-                    try {
-                        service.edit(tk);
-                    } catch (SQLException ex) {
-                        JOptionPane.showMessageDialog(this, "Đã xảy ra lỗi khi duyệt tài khoản!");
-                        return; // Nếu có lỗi, dừng và không tiếp tục
-                    }
-                }
-                loadData(currentPage);  // Hàm load lại dữ liệu sau khi chỉnh sửa
-                initPagination();
-                // Hiển thị thông báo với số lượng tài khoản đã duyệt
-                JOptionPane.showMessageDialog(this, "Duyệt thành công " + count + " tài khoản!");
-            }
-        }
-    }//GEN-LAST:event_buttonApproveActionPerformed
-
-    private void txtSearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyReleased
-        searchData(txtSearch.getText().trim());
-    }//GEN-LAST:event_txtSearchKeyReleased
-
-    private void buttonDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonDeleteActionPerformed
-        if(!taiKhoan.isAdmin()){
-            Notifications.getInstance().show(Notifications.Type.WARNING, "Chỉ có ADMIN mới sử dụng được chức năng này!");
-            return;
-        }
-        List<ModelTaiKhoan> list = getSelectedTaiKhoan();
-        if (list.isEmpty()){
-            Notifications.getInstance().show(Notifications.Type.WARNING, "Hãy chọn mục để xóa!");
-        } else {
-            // Đếm số tài khoản đã chọn để xóa
-            int count = list.size();
-
-            // Xác nhận hành động xóa với người dùng
-            int confirm = JOptionPane.showConfirmDialog(this, 
-                "Bạn có chắc chắn muốn xóa " + count + " tài khoản này?", 
-                "Xác nhận xóa", JOptionPane.YES_NO_OPTION);
-
-            // Nếu người dùng xác nhận xóa
-            if (confirm == JOptionPane.YES_OPTION) {
-                try {
-                    for (ModelTaiKhoan tk : list) {
-                        service.delete(tk); // Gọi phương thức xóa trong service
-                    }
-                    loadData(1); // Tải lại dữ liệu
-                    JOptionPane.showMessageDialog(this, "Đã xóa thành công " + count + " tài khoản!");
-                } catch (SQLException ex) {
-                    JOptionPane.showMessageDialog(this, "Đã xảy ra lỗi khi xóa tài khoản!");
-                }
-            }
-        }
-    }//GEN-LAST:event_buttonDeleteActionPerformed
-
-    private void txtSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSearchActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtSearchActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private Model.ButtonAction buttonApprove;
-    private Model.ButtonAction buttonDelete;
-    private Model.ButtonAction buttonEdit;
+    private Model.ButtonAction approve;
+    private Model.ButtonAction delete;
+    private Model.ButtonAction edit;
     private javax.swing.JLabel lbTitle;
     private PhanTrangPackage.Pagination pagination1;
     private javax.swing.JPanel panel;

@@ -29,7 +29,7 @@ import java.util.stream.Collectors;
 import raven.toast.Notifications;
 
 public class Service {
-    private static final Logger logger = Logger.getLogger(Service.class.getName());
+     private static final Logger logger = Logger.getLogger(Service.class.getName());
     //CHÚ Ý: NHỮNG HÀM CÓ CHÚ THÍCH ĐC VIẾT TRÊN UPPERCASE THÌ LÀ HÀM PUBLIC, KO THÌ CHỈ PHỤC VỤ HÀM PUBLIC
     
     
@@ -311,7 +311,7 @@ public class Service {
                      + "WHERE tu_thien.soTienThu <> 0 AND loai_khoan_thu.tenKhoanThu_Name = 'Tự nguyện' "
                      + "AND thang = ? ";
 
-        // Thêm điều kiện cho `soPhong` nếu không phải null
+        // Thêm điều kiện cho soPhong nếu không phải null
         if (IDKhoanThu != null) {
             query += " AND IDKhoanThu = ?";
         }
@@ -321,10 +321,10 @@ public class Service {
         try (Connection con = DatabaseConnection.getConnection();
              PreparedStatement p = con.prepareStatement(query)) {
 
-            // Thiết lập giá trị cho tham số `thang`
+            // Thiết lập giá trị cho tham số thang
             p.setInt(1, thang);
 
-            // Nếu `soPhong` không phải null, thiết lập giá trị cho tham số `soPhong`
+            // Nếu soPhong không phải null, thiết lập giá trị cho tham số soPhong
             if (IDKhoanThu != null) {
                 p.setString(2, IDKhoanThu);
             }
@@ -351,7 +351,7 @@ public class Service {
                      + "WHERE thu_phi.soTienThu <> 0 AND loai_khoan_thu.tenKhoanThu_Name <> 'Tự nguyện' "
                      + "AND thang = ? ";
 
-        // Thêm điều kiện cho `soPhong` nếu không phải null
+        // Thêm điều kiện cho soPhong nếu không phải null
         if (soPhong != null) {
             query += " AND soPhong = ?";
         }
@@ -361,10 +361,10 @@ public class Service {
         try (Connection con = DatabaseConnection.getConnection();
              PreparedStatement p = con.prepareStatement(query)) {
 
-            // Thiết lập giá trị cho tham số `thang`
+            // Thiết lập giá trị cho tham số thang
             p.setInt(1, thang);
 
-            // Nếu `soPhong` không phải null, thiết lập giá trị cho tham số `soPhong`
+            // Nếu soPhong không phải null, thiết lập giá trị cho tham số soPhong
             if (soPhong != null) {
                 p.setString(2, soPhong);
             }
@@ -381,27 +381,27 @@ public class Service {
         }
     }
     
-    public List<ModelHoaDon> loadForThongKeThuPhi(int thang) throws SQLException {
+    public List<ModelHoaDon> loadForThongKeThuPhi(int thang, int offset, int limit) throws SQLException {
+        if (offset < 0 || limit <= 0) {
+            throw new IllegalArgumentException("Offset và Limit phải là số dương.");
+        }
+
         List<ModelHoaDon> result = new ArrayList<>();
 
-        // Xây dựng câu truy vấn cơ bản
-        String query = "SELECT * FROM hoa_don "
-
-                     + "WHERE thang = ? ";
-
-        
-
-        query += " ORDER BY ID";
+        // Xây dựng câu truy vấn với phân trang
+        String query = "SELECT * FROM hoa_don WHERE thang = ? ORDER BY ID LIMIT ? OFFSET ?";
 
         try (Connection con = DatabaseConnection.getConnection();
              PreparedStatement p = con.prepareStatement(query)) {
 
-            // Thiết lập giá trị cho tham số `thang`
-            p.setInt(1, thang);
+            // Thiết lập giá trị cho các tham số
+            p.setInt(1, thang);  // Giá trị của thang
+            p.setInt(2, limit);  // Số bản ghi cần lấy
+            p.setInt(3, offset); // Vị trí bắt đầu lấy dữ liệu
 
             // Thực thi truy vấn và xử lý kết quả
             try (ResultSet r = p.executeQuery()) {
-                return processResultSet(ModelHoaDon.class, r); // Chuyển đổi ResultSet thành danh sách
+                result = processResultSet(ModelHoaDon.class, r); // Chuyển đổi ResultSet thành danh sách
             }
 
         } catch (SQLException e) {
@@ -409,6 +409,8 @@ public class Service {
             logger.log(Level.SEVERE, "Lỗi khi thực thi truy vấn: " + query, e);
             throw e; // Quăng lại ngoại lệ để lớp gọi xử lý
         }
+
+        return result;
     }
     
     
@@ -446,7 +448,7 @@ public class Service {
         switch (clazz.getSimpleName()) {
             
             case "ModelKhoanThu":
-                baseQuery = "SELECT * FROM `khoan_thu` JOIN `loai_khoan_thu` USING (tenKhoanThu_ID)";
+                baseQuery = "SELECT * FROM khoan_thu JOIN loai_khoan_thu USING (tenKhoanThu_ID)";
                 if (searchInput != null && !searchInput.isEmpty()) {
                     baseQuery += " WHERE maKhoanThu LIKE ? OR moTa LIKE ? OR soTienThu LIKE ? OR tenKhoanThu_Name LIKE ?";
                 }
@@ -454,11 +456,11 @@ public class Service {
                 return baseQuery;
 
             case "ModelLoaiKhoanThu":
-                baseQuery = "SELECT * FROM `loai_khoan_thu`";
+                baseQuery = "SELECT * FROM loai_khoan_thu";
                 return baseQuery;
                 
             case "ModelThongBao":
-                baseQuery = "SELECT * FROM `thong_bao`";
+                baseQuery = "SELECT * FROM thong_bao";
                 if (searchInput != null && !searchInput.isEmpty()) {
                     baseQuery += " WHERE thongBao LIKE ? OR ngayDang LIKE ?";
                 }
@@ -466,7 +468,7 @@ public class Service {
                 return baseQuery;
             
             case "ModelTaiKhoan":
-                baseQuery = "SELECT * FROM `tai_khoan`";
+                baseQuery = "SELECT * FROM tai_khoan";
                 if (searchInput != null && !searchInput.isEmpty()) {
                     baseQuery += " WHERE ID = ? OR hoTen LIKE ? OR soPhong LIKE ?";
                 }
@@ -474,7 +476,7 @@ public class Service {
                 return baseQuery;
             
             case "ModelHoGiaDinh":
-                baseQuery = "SELECT * FROM `ho_gia_dinh`";
+                baseQuery = "SELECT * FROM ho_gia_dinh";
                 if (searchInput != null && !searchInput.isEmpty()) {
                     baseQuery += " WHERE soPhong LIKE ?";
                 }
@@ -482,14 +484,14 @@ public class Service {
                 return baseQuery;
             
             case "ModelHoaDon":
-                baseQuery = "SELECT * FROM `hoa_don`";
+                baseQuery = "SELECT * FROM hoa_don";
                 if (searchInput != null && !searchInput.isEmpty()) {
                     baseQuery += " WHERE thang LIKE ?";
                 }
                 baseQuery += " ORDER BY soPhong";
                 return baseQuery;
             case "ModelNhanKhau":
-                baseQuery = "SELECT * FROM `nhan_khau`";
+                baseQuery = "SELECT * FROM nhan_khau";
                 if (searchInput != null && !searchInput.isEmpty()) {
                     baseQuery += " WHERE hoTen LIKE ? OR soPhong LIKE ?";
                 }
@@ -716,7 +718,7 @@ public class Service {
         throw new IllegalArgumentException("Không xác định được khóa chính cho model này.");
     }
     
-    //Lấy TÊN khóa chính của bảng (sẽ ko cần nếu ta đặt tất cả tên khóa chính là "ID" ngay từ đầu :) )
+    //Lấy TÊN khóa chính của bảng (sẽ ko cần nếu ta đặt tất cả tên khóa chính là "ID" ngay từ đầu 🙂 )
     private String getPrimaryKey(String tableName){
         String tenKhoaChinh;
         switch(tableName){
@@ -816,23 +818,24 @@ public class Service {
 
         switch (clazz.getSimpleName()) {
             case "ModelKhoanThu" -> // Truy vấn cho ModelKhoanThu
-                baseQuery = "SELECT * FROM `khoan_thu` JOIN `loai_khoan_thu` USING (tenKhoanThu_ID) ORDER BY ngayKetThuc DESC LIMIT ?, ?";
+                baseQuery = "SELECT * FROM khoan_thu JOIN loai_khoan_thu USING (tenKhoanThu_ID) ORDER BY ngayKetThuc DESC LIMIT ?, ?";
 
             case "ModelLoaiKhoanThu" -> // Truy vấn cho ModelLoaiKhoanThu
-                baseQuery = "SELECT * FROM `loai_khoan_thu` ORDER BY tenKhoanThu_Name LIMIT ?, ?";
+                baseQuery = "SELECT * FROM loai_khoan_thu ORDER BY tenKhoanThu_Name LIMIT ?, ?";
                 
             case "ModelTaiKhoan" -> // Truy vấn cho ModelTaiKhoan
-                baseQuery = "SELECT * FROM `tai_khoan` ORDER BY ghiChu, hoTen LIMIT ?, ?";
+                baseQuery = "SELECT * FROM tai_khoan ORDER BY ghiChu, hoTen LIMIT ?, ?";
                 
             case "ModelHoGiaDinh" -> // Truy vấn cho ModelTaiKhoan
-                baseQuery = "SELECT * FROM `ho_gia_dinh` ORDER BY soPhong LIMIT ?, ?";
+                baseQuery = "SELECT * FROM ho_gia_dinh ORDER BY soPhong LIMIT ?, ?";
             
             case "ModelNhanKhau" -> // Truy vấn cho ModelTaiKhoan
-                baseQuery = "SELECT * FROM `nhan_khau` ORDER BY soPhong LIMIT ?, ?";    
+                baseQuery = "SELECT * FROM nhan_khau ORDER BY soPhong LIMIT ?, ?";    
             
             case "ModelKhieuNai" -> // Truy vấn cho ModelTaiKhoan
-                baseQuery = "SELECT * FROM `khieu_nai` ORDER BY ngayDuyet, ngayGui, xetDuyet LIMIT ?, ?"; 
-                
+                baseQuery = "SELECT * FROM khieu_nai ORDER BY ngayDuyet, ngayGui, xetDuyet LIMIT ?, ?";
+            case "ModelHoaDon" -> // Truy vấn cho ModelHoaDon
+                baseQuery = "SELECT * FROM hoa_don ORDER BY soPhong LIMIT ?, ?";
             default -> throw new IllegalArgumentException("Unsupported class: " + clazz.getName());
         }
 

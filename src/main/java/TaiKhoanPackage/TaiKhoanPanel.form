@@ -59,11 +59,11 @@
                                   <Component id="txtSearch" min="-2" pref="300" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace min="-2" pref="450" max="-2" attributes="0"/>
-                              <Component id="buttonEdit" min="-2" pref="120" max="-2" attributes="0"/>
+                              <Component id="edit" min="-2" pref="120" max="-2" attributes="0"/>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                              <Component id="buttonDelete" min="-2" pref="120" max="-2" attributes="0"/>
+                              <Component id="delete" min="-2" pref="120" max="-2" attributes="0"/>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                              <Component id="buttonApprove" min="-2" pref="120" max="-2" attributes="0"/>
+                              <Component id="approve" min="-2" pref="120" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
@@ -78,9 +78,9 @@
                   <Group type="103" groupAlignment="1" attributes="0">
                       <Group type="102" alignment="1" attributes="0">
                           <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="buttonEdit" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="buttonDelete" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="buttonApprove" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="edit" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="delete" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="approve" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace min="-2" pref="9" max="-2" attributes="0"/>
                       </Group>
@@ -198,34 +198,21 @@
           </SubComponents>
         </Container>
         <Component class="javax.swing.JTextField" name="txtSearch">
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtSearchActionPerformed"/>
-            <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtSearchKeyReleased"/>
-          </Events>
         </Component>
-        <Component class="Model.ButtonAction" name="buttonEdit">
+        <Component class="Model.ButtonAction" name="edit">
           <Properties>
             <Property name="text" type="java.lang.String" value="Ch&#x1ec9;nh s&#x1eed;a"/>
           </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="buttonEditActionPerformed"/>
-          </Events>
         </Component>
-        <Component class="Model.ButtonAction" name="buttonDelete">
+        <Component class="Model.ButtonAction" name="delete">
           <Properties>
             <Property name="text" type="java.lang.String" value="X&#xf3;a"/>
           </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="buttonDeleteActionPerformed"/>
-          </Events>
         </Component>
-        <Component class="Model.ButtonAction" name="buttonApprove">
+        <Component class="Model.ButtonAction" name="approve">
           <Properties>
             <Property name="text" type="java.lang.String" value="Duy&#x1ec7;t"/>
           </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="buttonApproveActionPerformed"/>
-          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="lbTitle">
           <Properties>

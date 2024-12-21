@@ -29,7 +29,6 @@ import raven.toast.Notifications;
 public class TuThienController {
     private TuThienPanel view;
     private ModelTaiKhoan taiKhoan;
-    private int currentPage = 1;
     private Service service = new Service();
 
     public TuThienController(TuThienPanel tuThienView, ModelTaiKhoan taiKhoan) {

@@ -201,10 +201,6 @@
         <Component class="PhanTrangPackage.Pagination" name="pagination1">
         </Component>
         <Component class="javax.swing.JTextField" name="txtSearch">
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtSearchActionPerformed"/>
-            <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtSearchKeyReleased"/>
-          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="lbTitle">
           <Properties>
@@ -215,25 +211,16 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="T&#x1ea1;o m&#x1edb;i"/>
           </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="taoMoiActionPerformed"/>
-          </Events>
         </Component>
         <Component class="Model.ButtonAction" name="chinhSua">
           <Properties>
             <Property name="text" type="java.lang.String" value="Ch&#x1ec9;nh s&#x1eed;a"/>
           </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="chinhSuaActionPerformed"/>
-          </Events>
         </Component>
         <Component class="Model.ButtonAction" name="xoa">
           <Properties>
             <Property name="text" type="java.lang.String" value="X&#xf3;a"/>
           </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="xoaActionPerformed"/>
-          </Events>
         </Component>
       </SubComponents>
     </Container>

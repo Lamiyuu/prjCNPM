@@ -70,7 +70,7 @@ public class ButtonEditorKhieuNai extends DefaultCellEditor {
                             updatedKhieuNai.setID(khieuNai.getID());
                             updatedKhieuNai.setXetDuyet("Từ chối");
                             service.edit(updatedKhieuNai);  // Gọi phương thức edit trong ServiceTaiKhoan để cập nhật tài khoản
-                            panel.reload();
+                            panel.getController().reload();
                             // Đóng Popup và thông báo thành công
                             pc.closePopup();
                             Notifications.getInstance().show(Notifications.Type.SUCCESS, "Gửi thành công");
@@ -85,7 +85,7 @@ public class ButtonEditorKhieuNai extends DefaultCellEditor {
                             updatedKhieuNai.setID(khieuNai.getID());
                             updatedKhieuNai.setXetDuyet("Đã duyệt");
                             service.edit(updatedKhieuNai);  // Gọi phương thức edit trong ServiceTaiKhoan để cập nhật tài khoản
-                            panel.reload();
+                            panel.getController().reload();
                             // Đóng Popup và thông báo thành công
                             pc.closePopup();
                             Notifications.getInstance().show(Notifications.Type.SUCCESS, "Gửi thành công");

@@ -8,10 +8,13 @@ import Database.Service;
 import Model.CheckBoxTableHeader;
 import Model.TableHeaderAlignment;
 import Model.ModelHoaDon;
+import PhanTrangPackage.Pagination;
 import com.formdev.flatlaf.FlatClientProperties;
 import java.util.List;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
@@ -26,11 +29,13 @@ public class ThongKeThuPhiPanel extends javax.swing.JPanel {
      * Creates new form ThongKeThuPhiPanel
      */
     
+    private int currentPage = -1;
     private final Service service = new Service();
+    private ThongKeThuPhiController controller ;
     public ThongKeThuPhiPanel() {
         initComponents();
         init();
-        loadData(11);
+        this.controller = new ThongKeThuPhiController(this);
     }
     
     private void init(){
@@ -75,25 +80,28 @@ public class ThongKeThuPhiPanel extends javax.swing.JPanel {
         table.getTableHeader().setDefaultRenderer(new TableHeaderAlignment(table));
         table.getTableHeader().setReorderingAllowed(false);
         new TableHeaderAlignment(table);
-        comboBoxThang.setSelectedIndex(java.time.LocalDate.now().getMonthValue() - 1);  
-        comboBoxThang.addActionListener(evt -> {
-                loadData(Integer.parseInt(comboBoxThang.getSelectedItem().toString()));
-        });
-            
+        comboBoxThang.setSelectedIndex(java.time.LocalDate.now().getMonthValue() - 1);         
     }
     
-    private void loadData(int thang){
-        try {
-            DefaultTableModel model = (DefaultTableModel) table.getModel();
-            model.setRowCount(0);  // Xóa dữ liệu cũ (nếu có)
-            // Lấy và thêm dữ liệu mới từ cơ sở dữ liệu
-            List<ModelHoaDon> list = service.loadForThongKeThuPhi(thang);
-            for (ModelHoaDon tp : list) {
-                model.addRow(tp.toTableRow1(table.getRowCount() + 1));  // Thêm dòng dữ liệu mới vào bảng
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public void addControllerListener(ThongKeThuPhiController controller) {
+        // Truyền đối tượng controller vào để lắng nghe các sự kiện
+        comboBoxThang.addActionListener(controller::comboBoxThangActionPerformed);
+    }
+
+    public JComboBox<String> getComboBoxThang() {
+        return comboBoxThang;
+    }
+    
+    public Pagination getPagination1() {
+        return pagination1;
+    }
+
+    public JPanel getPanel() {
+        return panel;
+    }
+
+    public JTable getTable() {
+        return table;
     }
     
     

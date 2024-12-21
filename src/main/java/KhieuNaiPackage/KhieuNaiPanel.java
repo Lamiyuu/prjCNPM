@@ -12,6 +12,7 @@ import Model.ModelKhieuNai;
 import Model.ModelTaiKhoan;
 import Model.TableHeaderAlignment;
 import PhanTrangPackage.EventPagination;
+import PhanTrangPackage.Pagination;
 import PhanTrangPackage.Style.PaginationItemRenderStyle1;
 import static com.bw.jtools.svg.Type.g;
 import com.formdev.flatlaf.FlatClientProperties;
@@ -23,6 +24,7 @@ import java.awt.RenderingHints;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JCheckBox;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import raven.popup.DefaultOption;
 import raven.popup.GlassPanePopup;
@@ -37,6 +39,7 @@ public class KhieuNaiPanel extends javax.swing.JPanel {
     private Service service = new Service();
     private ModelTaiKhoan taiKhoan;
     private int currentPage = -1;
+    private KhieuNaiController controller;
     /**
      * Creates new form KhieuNaiPanel
      */
@@ -44,9 +47,10 @@ public class KhieuNaiPanel extends javax.swing.JPanel {
         this.taiKhoan = taiKhoan;
         initComponents();
         init();
-        initPagination();
-        loadData(1);
+        controller = new KhieuNaiController(this, taiKhoan);
     }
+    
+    
     private void init(){
         this.putClientProperty(FlatClientProperties.STYLE, ""
                 + "arc:25;"
@@ -80,18 +84,19 @@ public class KhieuNaiPanel extends javax.swing.JPanel {
         table.getColumnModel().getColumn(8).setCellRenderer(new ButtonRenderer());
         table.getColumnModel().getColumn(8).setCellEditor(new ButtonEditorKhieuNai(new JCheckBox(),table, this));
         new TableHeaderAlignment(table);
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/tao_moi.png"))); // NOI18N
-        jButton1.setFocusPainted(false);  // Loại bỏ hiệu ứng khi nút được chọn
-        jButton1.setContentAreaFilled(false);  // Loại bỏ nền của nút
-        jButton1.setBorderPainted(false);  // Loại bỏ viền của nút
+        taoMoi.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/tao_moi.png"))); // NOI18N
+        taoMoi.setFocusPainted(false);  // Loại bỏ hiệu ứng khi nút được chọn
+        taoMoi.setContentAreaFilled(false);  // Loại bỏ nền của nút
+        taoMoi.setBorderPainted(false);  // Loại bỏ viền của nút
 
         // Thêm hiệu ứng mượt mà cho nút
-        jButton1.setRolloverEnabled(false);  // Kích hoạt hiệu ứng khi di chuột qua nút
-        jButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        taoMoi.setRolloverEnabled(false);  // Kích hoạt hiệu ứng khi di chuột qua nút
+        taoMoi.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
     }
+    
     @Override
-public void paintComponent(Graphics grphcs){
+    public void paintComponent(Graphics grphcs){
     Graphics2D grphcs2d = (Graphics2D) grphcs;
     // Tăng cường chất lượng rendering
     grphcs2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
@@ -108,100 +113,34 @@ public void paintComponent(Graphics grphcs){
     super.paintComponent(grphcs);
 }
 
+    
+    
+    public void addControllerListener(KhieuNaiController controller) {
+        taoMoi.addActionListener(controller::taoMoiActionPerformed);
+    }
+    public Pagination getPagination1() {
+        return pagination1;
+    }
+
+    public JTable getTable() {
+        return table;
+    }
+
+    public KhieuNaiController getController() {
+        return controller;
+    }
+    
+    
+    
         
-    private void initPagination() {
-        // Sử dụng pagination1 thay vì pagination
-        pagination1.setPaginationItemRender(new PaginationItemRenderStyle1());
-
-        // Lắng nghe sự kiện thay đổi trang
-        pagination1.addEventPagination(new EventPagination() {
-            public void pageChanged(int page) {
-                loadData(page); // Tải dữ liệu khi trang thay đổi
-            }
-        });
-
-        // Tính toán số trang
-        int totalCount = service.getTotalCount("tai_khoan");  // Lấy tổng số bản ghi từ cơ sở dữ liệu
-        int recordsPerPage = 10;  // Số bản ghi trên mỗi trang
-        int totalPages = (int) Math.ceil((double) totalCount / recordsPerPage);  // Tổng số trang
-
-        pagination1.setPagegination(1, totalPages);  // Cập nhật trang hiện tại và tổng số trang
-
-        // Thêm phân trang vào giao diện
-        this.add(pagination1);
-        this.revalidate();
-        this.repaint();
-    }
     
-    private void loadData(int page) {
-        currentPage = page;
-        try {
-            // Lấy model của bảng
-            DefaultTableModel model = (DefaultTableModel) table.getModel();
-
-            // Nếu bảng đang chỉnh sửa, dừng chỉnh sửa ô
-            if (table.isEditing()) {
-                table.getCellEditor().stopCellEditing();
-            }
-
-            // Xóa hết các dòng hiện tại trong bảng
-            model.setRowCount(0);
-
-            // Tính số bản ghi mỗi trang
-            int recordsPerPage = 20;
-            int offset = (page - 1) * recordsPerPage;  // Tính offset dựa trên trang
-
-            // Lấy dữ liệu của trang hiện tại
-            List<ModelKhieuNai> list = service.getPage(ModelKhieuNai.class, offset, recordsPerPage);
-
-            // Thêm các dòng vào bảng
-            for (ModelKhieuNai d : list) {
-                model.addRow(d.toTableRow(table.getRowCount() + 1));  // Thêm dòng vào bảng
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-    
-    public List<ModelKhieuNai> getSelectedData() {
-        List<ModelKhieuNai> list = new ArrayList<>();
-
-        for (int i = 0; i < table.getRowCount(); i++) {
-            if ((boolean) table.getValueAt(i, 0)) {  // Kiểm tra trạng thái checkbox ở cột đầu tiên
-                Object data = table.getValueAt(i, 2);  // Lấy giá trị ở cột thứ 1
-
-                // Kiểm tra kiểu dữ liệu và ép kiểu nếu đúng
-                if (data instanceof ModelKhieuNai) {
-                    ModelKhieuNai nhanKhau = (ModelKhieuNai) data;
-                    list.add(nhanKhau);
-                } else {
-                    // Xử lý lỗi nếu không phải kiểu ModelTaiKhoan
-                    System.out.println("Dữ liệu không phải kiểu ModelTaiKhoan tại dòng " + i);
-                }
-            }
-        }
-
-        return list;
-    }
-    
-    public void reload(){
-        loadData(currentPage); // Thêm để khi xóa toàn bộ bảng, tạo Khoản thu mới thì hiện trên giao diện
-        initPagination();
-    }
-
-    /**
-     * This method is called from within the constructor to initialize the form.
-     * WARNING: Do NOT modify this code. The content of this method is always
-     * regenerated by the Form Editor.
-     */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         scroll = new javax.swing.JScrollPane();
         table = new javax.swing.JTable();
-        jButton1 = new javax.swing.JButton();
+        taoMoi = new javax.swing.JButton();
         pagination1 = new PhanTrangPackage.Pagination();
         lbTitle = new javax.swing.JLabel();
         comboLoai = new javax.swing.JComboBox<>();
@@ -261,12 +200,7 @@ public void paintComponent(Graphics grphcs){
             table.getColumnModel().getColumn(7).setMaxWidth(100);
         }
 
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/tao_moi.png"))); // NOI18N
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
+        taoMoi.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/tao_moi.png"))); // NOI18N
 
         lbTitle.setText("Quản lý khiếu nại");
 
@@ -286,7 +220,7 @@ public void paintComponent(Graphics grphcs){
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lbTitle)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jButton1)
+                                .addComponent(taoMoi)
                                 .addGap(18, 18, 18)
                                 .addComponent(khieuNaiCard2, javax.swing.GroupLayout.PREFERRED_SIZE, 948, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(comboLoai, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -300,7 +234,7 @@ public void paintComponent(Graphics grphcs){
                 .addComponent(lbTitle)
                 .addGap(20, 20, 20)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton1)
+                    .addComponent(taoMoi)
                     .addComponent(khieuNaiCard2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(comboLoai, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -312,52 +246,14 @@ public void paintComponent(Graphics grphcs){
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        CreateKhieuNai create = new CreateKhieuNai(taiKhoan);
-        DefaultOption option = new DefaultOption() {
-            @Override
-            public boolean closeWhenClickOutside() {
-                return true;
-            }
-        };
-        String actions[] = new String[]{"Thoát", "Đồng ý"};
-        GlassPanePopup.showPopup(new SimplePopupBorder(create, "Tạo đơn khiếu nại", actions, (pc, i) -> {
-            if (i == 1) { // Nếu người dùng nhấn "Save"
-                try {
-                    // Kiểm tra dữ liệu trước khi lưu
-                    ModelKhieuNai data = create.getData();
-                    if (data == null) {
-                        Notifications.getInstance().show(Notifications.Type.WARNING, "Hãy nhập đủ dữ liệu!");
-                        return;
-                    }
-
-                    // Lưu dữ liệu
-                    service.create(data);
-                    pc.closePopup();
-                    Notifications.getInstance().show(Notifications.Type.SUCCESS, "Thông tin mới đã được tạo");
-
-                    // Tải lại dữ liệu sau khi tạo mới
-                    loadData(currentPage); // Thêm để khi xóa toàn bộ bảng, tạo Khoản thu mới thì hiện trên giao diện
-                    initPagination();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    Notifications.getInstance().show(Notifications.Type.ERROR, "Đã có lỗi xảy ra trong quá trình tạo!");
-                }
-            } else {
-                // Nếu người dùng nhấn "Cancel"
-                pc.closePopup();
-            }
-        }), option);
-    }//GEN-LAST:event_jButton1ActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> comboLoai;
-    private javax.swing.JButton jButton1;
     private KhieuNaiPackage.KhieuNaiCard khieuNaiCard2;
     private javax.swing.JLabel lbTitle;
     private PhanTrangPackage.Pagination pagination1;
     private javax.swing.JScrollPane scroll;
     private javax.swing.JTable table;
+    private javax.swing.JButton taoMoi;
     // End of variables declaration//GEN-END:variables
 }
