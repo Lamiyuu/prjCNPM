@@ -92,7 +92,7 @@ public class KhoanThuPanel extends javax.swing.JPanel {
         
         
         table.getColumnModel().getColumn(0).setHeaderRenderer(new CheckBoxTableHeader(table, 0));
-table.getTableHeader().setDefaultRenderer(new TableHeaderAlignment(table));
+        table.getTableHeader().setDefaultRenderer(new TableHeaderAlignment(table));
         table.getTableHeader().setReorderingAllowed(false);
         new TableHeaderAlignment(table);
         // Căn lề phải cho cột thứ 2 (cột "Số tiền")

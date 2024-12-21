@@ -27,6 +27,10 @@ import raven.toast.Notifications;
 import ThuPhiPackage.HoaDonPdfPackage.generatePdf.CreatePdf;
 import com.itextpdf.text.DocumentException;
 import java.io.IOException;
+import javax.swing.JComboBox;
+import javax.swing.JPanel;
+import javax.swing.JTable;
+import javax.swing.JTextField;
 
 /**
  *
@@ -36,42 +40,58 @@ public class ThuPhiPanel extends javax.swing.JPanel {
 
     private Service service = new Service();
     private ModelTaiKhoan taiKhoan;
-    private void loadDataHoaDon(int thang, String tang){
-        try {
-            DefaultTableModel model = (DefaultTableModel) tableHoaDon.getModel();
-            model.setRowCount(0);  // Xóa dữ liệu cũ (nếu có)
-            
-            // Lấy và thêm dữ liệu mới từ cơ sở dữ liệu
-            List<ModelHoaDon> list = service.loadForHoaDon(tang, thang);
-            for (ModelHoaDon tp : list) {
-                model.addRow(tp.toTableRow(tableHoaDon.getRowCount() + 1));  // Thêm dòng dữ liệu mới vào bảng
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-    private void loadDataThuPhi(String phong, int thang) {
-        try {
-            DefaultTableModel model = (DefaultTableModel) table.getModel();
-            model.setRowCount(0);  // Xóa dữ liệu cũ (nếu có)
-            
-            // Lấy và thêm dữ liệu mới từ cơ sở dữ liệu
-            List<ModelThuPhi> list = service.loadForThuPhi(phong, thang);
-            for (ModelThuPhi tp : list) {
-                model.addRow(tp.toTableRow(table.getRowCount() + 1));  // Thêm dòng dữ liệu mới vào bảng
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-    
+    private ThuPhiController controller;
     public ThuPhiPanel(ModelTaiKhoan tk) {
         this.taiKhoan = tk;
         initComponents();
         init();
+        this.controller = new ThuPhiController(this, taiKhoan);
     }
+    public void addControllerListener(ThuPhiController controller) {
+        traCuu.addActionListener(controller::traCuuActionPerformed);
+        traCuuCuThe.addActionListener(controller::traCuuCuTheActionPerformed);
+        xacNhan.addActionListener(controller::xacNhanActionPerformed);
+        xuatBienLai.addActionListener(controller::xuatBienLaiActionPerformed);
+    }
+
+    public JComboBox<String> getFloor() {
+        return floor;
+    }
+
+    public JComboBox<String> getjComboBoxNam() {
+        return jComboBoxNam;
+    }
+
+    public JComboBox<String> getjComboBoxThang() {
+        return jComboBoxThang;
+    }
+
+    public JTextField getTxtSoPhong() {
+        return txtSoPhong;
+    }
+
+    public JComboBox<String> getMonth() {
+        return month;
+    }
+
+    public JPanel getPanel() {
+        return panel;
+    }
+
+    public JTable getTable() {
+        return table;
+    }
+
+    public JTable getTableHoaDon() {
+        return tableHoaDon;
+    }
+
+    public JComboBox<String> getYear() {
+        return year;
+    }
+    
+    
+    
     
     private void init(){
         for (int i = 2024; i <= LocalDate.now().getYear(); i++) {
@@ -160,22 +180,22 @@ public class ThuPhiPanel extends javax.swing.JPanel {
         month = new javax.swing.JComboBox<>();
         year = new javax.swing.JComboBox<>();
         floor = new javax.swing.JComboBox<>();
-        jButton3 = new javax.swing.JButton();
+        traCuu = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         table = new javax.swing.JTable();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jTextField1 = new javax.swing.JTextField();
+        traCuuCuThe = new javax.swing.JButton();
+        xacNhan = new javax.swing.JButton();
+        txtSoPhong = new javax.swing.JTextField();
         jComboBoxThang = new javax.swing.JComboBox<>();
         jComboBoxNam = new javax.swing.JComboBox<>();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        jButton4 = new javax.swing.JButton();
+        xuatBienLai = new javax.swing.JButton();
         lblTitle = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
         lblTitle1 = new javax.swing.JLabel();
@@ -227,12 +247,7 @@ public class ThuPhiPanel extends javax.swing.JPanel {
 
         floor.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "Tất cả" }));
 
-        jButton3.setText("Tra cứu");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
-            }
-        });
+        traCuu.setText("Tra cứu");
 
         jLabel1.setText("Tháng");
 
@@ -264,7 +279,7 @@ public class ThuPhiPanel extends javax.swing.JPanel {
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(floor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, 87, Short.MAX_VALUE)))))
+                                .addComponent(traCuu, javax.swing.GroupLayout.DEFAULT_SIZE, 87, Short.MAX_VALUE)))))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -280,7 +295,7 @@ public class ThuPhiPanel extends javax.swing.JPanel {
                     .addComponent(month, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(year, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(floor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton3))
+                    .addComponent(traCuu))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 550, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -324,29 +339,13 @@ public class ThuPhiPanel extends javax.swing.JPanel {
             table.getColumnModel().getColumn(4).setMaxWidth(0);
         }
 
-        jButton1.setText("Tra cứu");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
+        traCuuCuThe.setText("Tra cứu");
 
-        jButton2.setText("Xác nhận đã đóng");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
-            }
-        });
+        xacNhan.setText("Xác nhận đã đóng");
 
-        jTextField1.setToolTipText("Nhập số phòng ...");
+        txtSoPhong.setToolTipText("Nhập số phòng ...");
 
         jComboBoxThang.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12" }));
-
-        jComboBoxNam.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBoxNamActionPerformed(evt);
-            }
-        });
 
         jLabel4.setText("Số phòng");
 
@@ -354,12 +353,7 @@ public class ThuPhiPanel extends javax.swing.JPanel {
 
         jLabel6.setText("Năm");
 
-        jButton4.setText("Xuất biên lai");
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
-            }
-        });
+        xuatBienLai.setText("Xuất biên lai");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -376,7 +370,7 @@ public class ThuPhiPanel extends javax.swing.JPanel {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 638, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(txtSoPhong, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jComboBoxThang, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -389,11 +383,11 @@ public class ThuPhiPanel extends javax.swing.JPanel {
                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addComponent(jComboBoxNam, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(traCuuCuThe, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(jButton2)))
+                                        .addComponent(xacNhan)))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton4)))
+                                .addComponent(xuatBienLai)))
                         .addGap(27, 27, 27))))
         );
         jPanel1Layout.setVerticalGroup(
@@ -406,12 +400,12 @@ public class ThuPhiPanel extends javax.swing.JPanel {
                     .addComponent(jLabel6))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtSoPhong, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jComboBoxThang, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jComboBoxNam, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2)
-                    .addComponent(jButton1)
-                    .addComponent(jButton4))
+                    .addComponent(xacNhan)
+                    .addComponent(traCuuCuThe)
+                    .addComponent(xuatBienLai))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 550, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -477,123 +471,9 @@ public class ThuPhiPanel extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // Lấy số phòng từ TextField và loại bỏ khoảng trắng
-        String soPhong = jTextField1.getText().trim();
-
-        // Kiểm tra nếu TextField trống
-        if (soPhong.isEmpty()) {
-            // Hiển thị thông báo lỗi cho người dùng
-            javax.swing.JOptionPane.showMessageDialog(this, "Vui lòng nhập số phòng!", "Lỗi", javax.swing.JOptionPane.ERROR_MESSAGE);
-            return;  // Dừng thực hiện hành động nếu số phòng chưa được nhập
-        }
-
-        // Kiểm tra nếu tháng chưa được chọn trong ComboBox
-        if (jComboBoxThang.getSelectedItem() == null) {
-            javax.swing.JOptionPane.showMessageDialog(this, "Vui lòng chọn tháng!", "Lỗi", javax.swing.JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-
-        try {
-            // Lấy tháng từ ComboBox và chuyển sang số nguyên
-            int thang = Integer.parseInt(jComboBoxThang.getSelectedItem().toString());
-
-            // Gọi loadDataThuPhi với số phòng và tháng đã chọn
-            loadDataThuPhi(soPhong, thang);
-        } catch (Exception e) {
-            // Xử lý nếu có lỗi khi chuyển đổi tháng thành số
-            javax.swing.JOptionPane.showMessageDialog(this, "Vui lòng nhập dữ liệu hợp lệ!", "Lỗi", javax.swing.JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-    }//GEN-LAST:event_jButton1ActionPerformed
-
-    private void jComboBoxNamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxNamActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBoxNamActionPerformed
-
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        try {
-            String tang = (String) floor.getSelectedItem();
-            int thang = Integer.parseInt(month.getSelectedItem().toString());
-            if (tang.equals("Tất cả")) {
-                loadDataHoaDon(thang, null);
-                return;
-            }
-            loadDataHoaDon(thang, tang);
-        } catch (Exception e) {
-            Notifications.getInstance().show(Notifications.Type.WARNING, "Có lỗi xảy ra");
-            return;
-        }
-    }//GEN-LAST:event_jButton3ActionPerformed
-
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        if(taiKhoan.isAdmin() == false){
-            Notifications.getInstance().show(Notifications.Type.WARNING, "Chỉ ADMIN mới có quyền thu phí!");
-            return;
-        }
-        ModelHoaDon startData;
-        try {
-            startData = service.loadForHoaDon(jTextField1.getText(), Integer.parseInt(jComboBoxThang.getSelectedItem().toString())).getFirst();
-        } catch (SQLException ex) {
-            Logger.getLogger(ThuPhiPanel.class.getName()).log(Level.SEVERE, null, ex);
-            return;
-        }
-        CreateThuPhi create = new CreateThuPhi(startData);
-        DefaultOption option = new DefaultOption() {
-            @Override
-            public boolean closeWhenClickOutside() {
-                return true;
-            }
-        };
-        String actions[] = new String[]{"Xác nhận"};
-        GlassPanePopup.showPopup(new SimplePopupBorder(create, "Xác nhận đã đóng", actions, (pc, i) -> {
-            if (i == 0) { // Nếu người dùng nhấn "Save"
-                try {
-                    if (startData == null) {
-                        Notifications.getInstance().show(Notifications.Type.WARNING, "Vui lòng nhập đủ thông tin khoản thu!");
-                        return;
-                    }
-                    
-                    if (startData.isDaDong()){
-                        Notifications.getInstance().show(Notifications.Type.WARNING, "Khoản này đã được thu rồi!");
-                        return;
-                    }
-                    
-                    ModelHoaDon newHoaDon = create.getData();
-                    service.edit(newHoaDon);
-                    pc.closePopup();
-                    Notifications.getInstance().show(Notifications.Type.SUCCESS, "Xác nhận đã thu phí tháng " + newHoaDon.getThang() + " thành công cho phòng " + newHoaDon.getSoPhong());
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    Notifications.getInstance().show(Notifications.Type.ERROR, "Đã có lỗi xảy ra trong quá trình tạo khoản thu!");
-                }
-            } else {
-                // Nếu người dùng nhấn "Cancel"
-                pc.closePopup();
-            }
-        }), option);
-    }//GEN-LAST:event_jButton2ActionPerformed
-
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        // Lấy giá trị từ jTextField1 và chuyển thành String
-        String soPhong = jTextField1.getText();
-        try {
-            CreatePdf.create(soPhong, table);
-        } catch (IOException ex) {
-            Logger.getLogger(ThuPhiPanel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (DocumentException ex) {
-            Logger.getLogger(ThuPhiPanel.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-    }//GEN-LAST:event_jButton4ActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> floor;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
     private javax.swing.JComboBox<String> jComboBoxNam;
     private javax.swing.JComboBox<String> jComboBoxThang;
     private javax.swing.JLabel jLabel1;
@@ -607,7 +487,6 @@ public class ThuPhiPanel extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JLabel lblTitle;
     private javax.swing.JLabel lblTitle1;
     private javax.swing.JLabel lblTitle2;
@@ -615,6 +494,11 @@ public class ThuPhiPanel extends javax.swing.JPanel {
     private javax.swing.JPanel panel;
     private javax.swing.JTable table;
     private javax.swing.JTable tableHoaDon;
+    private javax.swing.JButton traCuu;
+    private javax.swing.JButton traCuuCuThe;
+    private javax.swing.JTextField txtSoPhong;
+    private javax.swing.JButton xacNhan;
+    private javax.swing.JButton xuatBienLai;
     private javax.swing.JComboBox<String> year;
     // End of variables declaration//GEN-END:variables
 }

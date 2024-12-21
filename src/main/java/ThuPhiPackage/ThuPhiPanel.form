@@ -121,7 +121,7 @@
                                   <Group type="102" attributes="0">
                                       <Component id="floor" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="jButton3" pref="87" max="32767" attributes="0"/>
+                                      <Component id="traCuu" pref="87" max="32767" attributes="0"/>
                                   </Group>
                               </Group>
                           </Group>
@@ -144,7 +144,7 @@
                           <Component id="month" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="year" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="floor" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jButton3" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="traCuu" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="jScrollPane2" min="-2" pref="550" max="-2" attributes="0"/>
@@ -270,13 +270,10 @@
                 <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
               </AuxValues>
             </Component>
-            <Component class="javax.swing.JButton" name="jButton3">
+            <Component class="javax.swing.JButton" name="traCuu">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Tra c&#x1ee9;u"/>
               </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton3ActionPerformed"/>
-              </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel1">
               <Properties>
@@ -317,7 +314,7 @@
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Component id="jScrollPane1" min="-2" pref="638" max="-2" attributes="0"/>
                                   <Group type="102" attributes="0">
-                                      <Component id="jTextField1" min="-2" pref="72" max="-2" attributes="0"/>
+                                      <Component id="txtSoPhong" min="-2" pref="72" max="-2" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="0" attributes="0">
                                           <Component id="jComboBoxThang" alignment="0" min="-2" max="-2" attributes="0"/>
@@ -332,13 +329,13 @@
                                           <Group type="102" attributes="0">
                                               <Component id="jComboBoxNam" min="-2" pref="106" max="-2" attributes="0"/>
                                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                              <Component id="jButton1" min="-2" pref="78" max="-2" attributes="0"/>
+                                              <Component id="traCuuCuThe" min="-2" pref="78" max="-2" attributes="0"/>
                                               <EmptySpace max="32767" attributes="0"/>
-                                              <Component id="jButton2" min="-2" max="-2" attributes="0"/>
+                                              <Component id="xacNhan" min="-2" max="-2" attributes="0"/>
                                           </Group>
                                       </Group>
                                       <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="jButton4" min="-2" max="-2" attributes="0"/>
+                                      <Component id="xuatBienLai" min="-2" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
                               <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
@@ -358,12 +355,12 @@
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="jTextField1" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="txtSoPhong" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jComboBoxThang" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jComboBoxNam" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jButton2" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jButton1" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jButton4" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="xacNhan" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="traCuuCuThe" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="xuatBienLai" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="jScrollPane1" min="-2" pref="550" max="-2" attributes="0"/>
@@ -433,23 +430,17 @@
                 </Component>
               </SubComponents>
             </Container>
-            <Component class="javax.swing.JButton" name="jButton1">
+            <Component class="javax.swing.JButton" name="traCuuCuThe">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Tra c&#x1ee9;u"/>
               </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton1ActionPerformed"/>
-              </Events>
             </Component>
-            <Component class="javax.swing.JButton" name="jButton2">
+            <Component class="javax.swing.JButton" name="xacNhan">
               <Properties>
                 <Property name="text" type="java.lang.String" value="X&#xe1;c nh&#x1ead;n &#x111;&#xe3; &#x111;&#xf3;ng"/>
               </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton2ActionPerformed"/>
-              </Events>
             </Component>
-            <Component class="javax.swing.JTextField" name="jTextField1">
+            <Component class="javax.swing.JTextField" name="txtSoPhong">
               <Properties>
                 <Property name="toolTipText" type="java.lang.String" value="Nh&#x1ead;p s&#x1ed1; ph&#xf2;ng ..."/>
               </Properties>
@@ -483,9 +474,6 @@
                   <StringArray count="0"/>
                 </Property>
               </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jComboBoxNamActionPerformed"/>
-              </Events>
               <AuxValues>
                 <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
               </AuxValues>
@@ -505,13 +493,10 @@
                 <Property name="text" type="java.lang.String" value="N&#x103;m"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JButton" name="jButton4">
+            <Component class="javax.swing.JButton" name="xuatBienLai">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Xu&#x1ea5;t bi&#xea;n lai"/>
               </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton4ActionPerformed"/>
-              </Events>
             </Component>
           </SubComponents>
         </Container>

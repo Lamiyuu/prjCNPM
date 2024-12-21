@@ -33,7 +33,7 @@ public class MenuPanel extends javax.swing.JPanel {
         menuList1.addItem(new MenuModel("TaiKhoan","Tài khoản",MenuModel.MenuType.MENU));
         menuList1.addItem(new MenuModel("KhoanThu","Khoản thu",MenuModel.MenuType.MENU));
         menuList1.addItem(new MenuModel("ThuPhi","Thu phí",MenuModel.MenuType.MENU));
-        menuList1.addItem(new MenuModel("ThuPhi","Thống kê TP",MenuModel.MenuType.MENU));
+        menuList1.addItem(new MenuModel("ThongKe","Thống kê phí",MenuModel.MenuType.MENU));
         menuList1.addItem(new MenuModel("TuThien","Từ thiện",MenuModel.MenuType.MENU));
         menuList1.addItem(new MenuModel("NhanKhau","Nhân khẩu",MenuModel.MenuType.MENU));
         menuList1.addItem(new MenuModel("KhieuNai","Khiếu nại",MenuModel.MenuType.MENU));
