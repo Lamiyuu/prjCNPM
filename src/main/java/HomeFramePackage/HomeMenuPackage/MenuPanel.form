@@ -33,8 +33,8 @@
               <EmptySpace max="-2" attributes="0"/>
               <Component id="labelName" min="-2" pref="26" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
-              <Component id="menuList1" min="-2" pref="413" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="225" max="-2" attributes="0"/>
+              <Component id="menuList1" min="-2" pref="506" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="132" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>

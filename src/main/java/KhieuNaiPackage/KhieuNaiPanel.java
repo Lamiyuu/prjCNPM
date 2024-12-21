@@ -13,7 +13,13 @@ import Model.ModelTaiKhoan;
 import Model.TableHeaderAlignment;
 import PhanTrangPackage.EventPagination;
 import PhanTrangPackage.Style.PaginationItemRenderStyle1;
+import static com.bw.jtools.svg.Type.g;
 import com.formdev.flatlaf.FlatClientProperties;
+import java.awt.Color;
+import java.awt.GradientPaint;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JCheckBox;
@@ -74,9 +80,35 @@ public class KhieuNaiPanel extends javax.swing.JPanel {
         table.getColumnModel().getColumn(8).setCellRenderer(new ButtonRenderer());
         table.getColumnModel().getColumn(8).setCellEditor(new ButtonEditorKhieuNai(new JCheckBox(),table, this));
         new TableHeaderAlignment(table);
-        
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/tao_moi.png"))); // NOI18N
+        jButton1.setFocusPainted(false);  // Loại bỏ hiệu ứng khi nút được chọn
+        jButton1.setContentAreaFilled(false);  // Loại bỏ nền của nút
+        jButton1.setBorderPainted(false);  // Loại bỏ viền của nút
+
+        // Thêm hiệu ứng mượt mà cho nút
+        jButton1.setRolloverEnabled(false);  // Kích hoạt hiệu ứng khi di chuột qua nút
+        jButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+
     }
-    
+    @Override
+public void paintComponent(Graphics grphcs){
+    Graphics2D grphcs2d = (Graphics2D) grphcs;
+    // Tăng cường chất lượng rendering
+    grphcs2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+    grphcs2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+    grphcs2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+
+    // Tạo màu gradient
+    GradientPaint grd = new GradientPaint(0, 0, Color.WHITE, 0, getHeight(), Color.WHITE);
+    grphcs2d.setPaint(grd);
+
+    // Làm mềm cạnh ô vuông
+    grphcs2d.fillRoundRect(0, 0, getWidth(), getHeight(), 30, 30);
+
+    super.paintComponent(grphcs);
+}
+
+        
     private void initPagination() {
         // Sử dụng pagination1 thay vì pagination
         pagination1.setPaginationItemRender(new PaginationItemRenderStyle1());
@@ -201,14 +233,36 @@ public class KhieuNaiPanel extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
+        table.getTableHeader().setReorderingAllowed(false);
         scroll.setViewportView(table);
         if (table.getColumnModel().getColumnCount() > 0) {
+            table.getColumnModel().getColumn(0).setMinWidth(35);
+            table.getColumnModel().getColumn(0).setPreferredWidth(35);
+            table.getColumnModel().getColumn(0).setMaxWidth(35);
+            table.getColumnModel().getColumn(1).setMinWidth(45);
+            table.getColumnModel().getColumn(1).setPreferredWidth(45);
+            table.getColumnModel().getColumn(1).setMaxWidth(45);
             table.getColumnModel().getColumn(2).setMinWidth(0);
             table.getColumnModel().getColumn(2).setPreferredWidth(0);
             table.getColumnModel().getColumn(2).setMaxWidth(0);
+            table.getColumnModel().getColumn(3).setMinWidth(150);
+            table.getColumnModel().getColumn(3).setPreferredWidth(150);
+            table.getColumnModel().getColumn(3).setMaxWidth(150);
+            table.getColumnModel().getColumn(4).setMinWidth(350);
+            table.getColumnModel().getColumn(4).setPreferredWidth(350);
+            table.getColumnModel().getColumn(4).setMaxWidth(350);
+            table.getColumnModel().getColumn(5).setMinWidth(200);
+            table.getColumnModel().getColumn(5).setPreferredWidth(200);
+            table.getColumnModel().getColumn(5).setMaxWidth(200);
+            table.getColumnModel().getColumn(6).setMinWidth(100);
+            table.getColumnModel().getColumn(6).setPreferredWidth(100);
+            table.getColumnModel().getColumn(6).setMaxWidth(100);
+            table.getColumnModel().getColumn(7).setMinWidth(100);
+            table.getColumnModel().getColumn(7).setPreferredWidth(100);
+            table.getColumnModel().getColumn(7).setMaxWidth(100);
         }
 
-        jButton1.setText("Tạo mới");
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/tao_moi.png"))); // NOI18N
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -223,39 +277,48 @@ public class KhieuNaiPanel extends javax.swing.JPanel {
         panel.setLayout(panelLayout);
         panelLayout.setHorizontalGroup(
             panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelLayout.createSequentialGroup()
-                .addContainerGap(66, Short.MAX_VALUE)
+            .addGroup(panelLayout.createSequentialGroup()
+                .addGap(25, 25, 25)
                 .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(khieuNaiCard2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelLayout.createSequentialGroup()
-                            .addComponent(pagination1, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(392, 392, 392))
-                        .addGroup(panelLayout.createSequentialGroup()
-                            .addComponent(lbTitle)
-                            .addGap(1760, 1760, 1760)))
-                    .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addGroup(panelLayout.createSequentialGroup()
-                            .addComponent(comboLoai, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(jButton1)
-                            .addContainerGap())
-                        .addComponent(scroll, javax.swing.GroupLayout.PREFERRED_SIZE, 879, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addComponent(lbTitle)
+                    .addGroup(panelLayout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(scroll)
+                            .addGroup(panelLayout.createSequentialGroup()
+                                .addComponent(jButton1)
+                                .addGap(41, 41, 41)
+                                .addComponent(khieuNaiCard2, javax.swing.GroupLayout.PREFERRED_SIZE, 948, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addGap(385, 385, 385)
+                .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelLayout.createSequentialGroup()
+                        .addComponent(pagination1, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(392, 392, 392))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelLayout.createSequentialGroup()
+                        .addComponent(comboLoai, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(56, 56, 56))))
         );
         panelLayout.setVerticalGroup(
             panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelLayout.createSequentialGroup()
-                .addGap(33, 33, 33)
-                .addComponent(lbTitle)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
-                .addComponent(khieuNaiCard2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(33, 33, 33)
-                .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(comboLoai, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(scroll, javax.swing.GroupLayout.PREFERRED_SIZE, 383, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(26, 26, 26)
+                .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelLayout.createSequentialGroup()
+                        .addGap(33, 33, 33)
+                        .addComponent(lbTitle)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButton1))
+                    .addGroup(panelLayout.createSequentialGroup()
+                        .addGap(67, 67, 67)
+                        .addComponent(khieuNaiCard2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelLayout.createSequentialGroup()
+                        .addGap(446, 446, 446)
+                        .addComponent(comboLoai, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(415, 415, 415))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelLayout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(scroll, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(416, 416, 416)))
                 .addComponent(pagination1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(33, 33, 33))
         );
@@ -270,9 +333,7 @@ public class KhieuNaiPanel extends javax.swing.JPanel {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(panel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(panel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
 

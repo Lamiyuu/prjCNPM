@@ -56,7 +56,7 @@ public class ButtonRenderer extends JButton implements TableCellRenderer {
         });
     }
 
-  @Override
+    @Override
     public void paintComponent(Graphics grphcs){
         Graphics2D grphcs2d = (Graphics2D) grphcs;
         //Tạo màu gradient

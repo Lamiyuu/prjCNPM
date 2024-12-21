@@ -66,7 +66,9 @@ public class CreateKhieuNai extends javax.swing.JPanel {
         jLabel4.setText("Nội dung");
 
         txtNoiDung.setColumns(20);
-        txtNoiDung.setRows(5);
+        txtNoiDung.setLineWrap(true);
+        txtNoiDung.setTabSize(16);
+        txtNoiDung.setWrapStyleWord(true);
         jScrollPane1.setViewportView(txtNoiDung);
 
         jLabel5.setText("Phân loại:");

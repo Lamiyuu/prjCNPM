@@ -33,8 +33,8 @@ public class PieChartGroupPanel extends javax.swing.JPanel {
             String query1 = "SELECT COUNT(DISTINCT soPhong) AS ho_chua_hoan_thanh FROM hoa_don WHERE thang = MONTH(CURDATE()) AND daDong = 0";
             String query2 = "SELECT COUNT(DISTINCT soPhong) AS ho_da_hoan_thanh FROM hoa_don WHERE thang = MONTH(CURDATE()) AND daDong = 1";
             String query3 = "SELECT COUNT(DISTINCT soPhong) AS tong_so_ho FROM ho_gia_dinh";
-            String query4 = "SELECT COUNT(DISTINCT soPhong) AS tong_so_ho_cho_thue FROM ho_gia_dinh WHERE trangThai = 1";
-
+            String query4 = "SELECT COUNT(DISTINCT soPhong) AS tong_so_ho_cho_thue FROM ho_gia_dinh WHERE trangThai ='Trống' ";
+            String query5 = "SELECT COUNT(DISTINCT soPhong) AS tong_so_ho_cho_thue FROM ho_gia_dinh WHERE trangThai ='Cho thuê' ";
             // Thực hiện từng truy vấn và lấy kết quả tương ứng
             PreparedStatement ps1 = con.prepareStatement(query1);
             ResultSet rs1 = ps1.executeQuery();
@@ -47,6 +47,9 @@ public class PieChartGroupPanel extends javax.swing.JPanel {
 
             PreparedStatement ps4 = con.prepareStatement(query4);
             ResultSet rs4 = ps4.executeQuery();
+            
+            PreparedStatement ps5 = con.prepareStatement(query5);
+            ResultSet rs5 = ps5.executeQuery();
 
             if (rs1.next()) {
                 soHoChuaHoanThanhPhi = rs1.getInt("ho_chua_hoan_thanh");
@@ -63,6 +66,11 @@ public class PieChartGroupPanel extends javax.swing.JPanel {
             if (rs4.next()) {
                 soHoChoThue = rs4.getInt("tong_so_ho_cho_thue");
             }
+            
+            if (rs5.next()) {
+                soHoChoThue = rs5.getInt("tong_so_ho_cho_thue");
+            }
+            
         } catch (Exception e) {
             e.printStackTrace();
         }

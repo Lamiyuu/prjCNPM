@@ -50,9 +50,9 @@ public class KhieuNaiCard extends javax.swing.JPanel {
 
            // Cập nhật dữ liệu lên các CardPanel
            if (approveUrl != null && pendingUrl != null && dismissUrl != null) {
-               cardPanel1.setData(new CardModel(new ImageIcon(approveUrl), "Đã xử lý", approve+""));
+               cardPanel3.setData(new CardModel(new ImageIcon(approveUrl), "Đã xử lý", approve+""));
                cardPanel2.setData(new CardModel(new ImageIcon(pendingUrl), "Đang chờ", pending+""));
-               cardPanel3.setData(new CardModel(new ImageIcon(dismissUrl), "Đã từ chối", dismiss+""));
+               cardPanel1.setData(new CardModel(new ImageIcon(dismissUrl), "Đã từ chối", dismiss+""));
            } else {
                System.out.println("Không tìm thấy một hoặc nhiều hình ảnh.");
            }
@@ -70,18 +70,18 @@ public class KhieuNaiCard extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        cardPanel3 = new HomeFramePackage.HomeCardPackage.CardPanel();
-        cardPanel2 = new HomeFramePackage.HomeCardPackage.CardPanel();
         cardPanel1 = new HomeFramePackage.HomeCardPackage.CardPanel();
+        cardPanel2 = new HomeFramePackage.HomeCardPackage.CardPanel();
+        cardPanel3 = new HomeFramePackage.HomeCardPackage.CardPanel();
 
-        cardPanel3.setColor1(new java.awt.Color(17, 153, 142));
-        cardPanel3.setColor2(new java.awt.Color(56, 239, 125));
+        cardPanel1.setColor1(new java.awt.Color(17, 153, 142));
+        cardPanel1.setColor2(new java.awt.Color(56, 239, 125));
 
         cardPanel2.setColor1(new java.awt.Color(238, 205, 163));
         cardPanel2.setColor2(new java.awt.Color(239, 98, 159));
 
-        cardPanel1.setColor1(new java.awt.Color(248, 87, 166));
-        cardPanel1.setColor2(new java.awt.Color(255, 114, 97));
+        cardPanel3.setColor1(new java.awt.Color(248, 87, 166));
+        cardPanel3.setColor2(new java.awt.Color(255, 114, 97));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -89,11 +89,11 @@ public class KhieuNaiCard extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(cardPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(cardPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(40, 40, 40)
                 .addComponent(cardPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(40, 40, 40)
-                .addComponent(cardPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(cardPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(122, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -101,9 +101,9 @@ public class KhieuNaiCard extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(cardPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cardPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cardPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cardPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cardPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents

@@ -35,6 +35,20 @@ public class EditPhong extends javax.swing.JPanel {
             txtSoXeMay.setText(data.getSoXeMay() + "");
             txtSoOto.setText(data.getSoOto() + "");
             comboTrangThai.setSelectedItem(data.getTrangThai());
+            comboTrangThai.addActionListener(evt -> {
+                String selectedItem = comboTrangThai.getSelectedItem().toString();
+                int soNguoi = Integer.parseInt(txtSoNguoi.getText().trim());
+
+                if ("Còn trống".equals(selectedItem) && soNguoi > 0) {
+                    JOptionPane.showMessageDialog(this,
+                            "Không thể chọn 'Còn trống' khi phòng này vẫn còn người!",
+                            "Lỗi",
+                            JOptionPane.ERROR_MESSAGE);
+                    // Đặt lại trạng thái `ComboBox` về giá trị trước đó
+                    comboTrangThai.setSelectedItem(hoGiaDinh.getTrangThai());
+                }
+            });
+
         }
     }
     
