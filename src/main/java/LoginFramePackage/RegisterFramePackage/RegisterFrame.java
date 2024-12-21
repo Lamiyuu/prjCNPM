@@ -404,10 +404,14 @@ public class RegisterFrame extends javax.swing.JFrame {
             // Lấy hoặc xử lý ngày sinh
             dob = datePicker1.isDateSelected() 
                 ? Date.valueOf(datePicker1.getSelectedDate().toString()) 
-                : Date.valueOf(jTextFieldNgaySinh.getText());
+                : Date.valueOf("1000-01-01");
 
 
             // Kiểm tra lỗi
+            if (!datePicker1.isDateSelected()){
+                JOptionPane.showMessageDialog(this, "Hãy chọn ngày sinh", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
             if (fullName.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Họ và tên là bắt buộc", "Lỗi", JOptionPane.ERROR_MESSAGE);
                 return;
@@ -426,19 +430,19 @@ public class RegisterFrame extends javax.swing.JFrame {
             }
             if (!isValidPassword(password))
             {
-                JOptionPane.showMessageDialog(this, "Mật khẩu cần chứa ít nhất 1 ký tự thường, 1 ký tự in hoa, 1 ký tự số, 1 ký tự đặc biệt", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Mật khẩu cần chứa ít nhất 8 kí tự, bao gồm ít nhất 1 ký tự thường, 1 ký tự in hoa, 1 ký tự số, 1 ký tự đặc biệt", "Lỗi", JOptionPane.ERROR_MESSAGE);
                 return;
             }
             if (cccd.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Số CCCD là bắt buộc", "Lỗi", JOptionPane.ERROR_MESSAGE);
                 return;
             }
-            if (cccd.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Số CCCD là bắt buộc", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            if (cccd.length() != 12 || !cccd.matches("\\d+")) {
+                JOptionPane.showMessageDialog(this, "Số CCCD chưa hợp lệ!", "Lỗi", JOptionPane.ERROR_MESSAGE);
                 return;
             }
             if (phone.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Email là bắt buộc", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Số điện thoại là bắt buộc", "Lỗi", JOptionPane.ERROR_MESSAGE);
                 return;
             }
             if (phone.length() != 10 || !phone.matches("\\d+")) { 
