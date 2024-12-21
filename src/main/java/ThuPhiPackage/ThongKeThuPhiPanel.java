@@ -76,7 +76,7 @@ public class ThongKeThuPhiPanel extends javax.swing.JPanel {
           
         lbTitle.putClientProperty(FlatClientProperties.STYLE, ""
                 + "font:bold +5;");
-        table.getColumnModel().getColumn(0).setHeaderRenderer(new CheckBoxTableHeader(table, 0));
+        
         table.getTableHeader().setDefaultRenderer(new TableHeaderAlignment(table));
         table.getTableHeader().setReorderingAllowed(false);
         new TableHeaderAlignment(table);
