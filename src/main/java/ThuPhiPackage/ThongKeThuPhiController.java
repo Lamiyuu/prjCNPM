@@ -83,7 +83,6 @@ public class ThongKeThuPhiController {
         int totalPages = (int) Math.ceil((double) totalCount / recordsPerPage);
 
         view.getPagination1().setPagegination(1, totalPages);
-
         view.getPanel().add(view.getPagination1());
         view.getPanel().revalidate();
         view.getPanel().repaint();

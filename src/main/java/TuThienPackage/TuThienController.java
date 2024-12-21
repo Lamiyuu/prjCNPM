@@ -35,7 +35,8 @@ public class TuThienController {
         this.view = tuThienView;
         this.taiKhoan = taiKhoan;
         view.addControllerListener(this);  // Gắn sự kiện cho các thành phần trong view
-        loadData(Integer.parseInt(view.getComboBoxThang().getSelectedItem().toString()), ((ModelKhoanThu) view.getComboBox().getSelectedItem()).getID());
+        if(view.getComboBoxThang().getSelectedItem()!=null && view.getComboBox().getSelectedItem()!=null) 
+            loadData(Integer.parseInt(view.getComboBoxThang().getSelectedItem().toString()), ((ModelKhoanThu) view.getComboBox().getSelectedItem()).getID());
     }
     
     public List<ModelThuPhi> getSelectedData(){

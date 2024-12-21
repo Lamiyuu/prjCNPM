@@ -68,13 +68,13 @@ public class TuThienPanel extends javax.swing.JPanel {
                 + "cellFocusColor: $TableHeader.hoverBackground;"
                 + "selectionBackground: $TableHeader.hoverBackground;" // Sửa lại chính tả
                 + "selectionForeground: $Table.foreground;");
-         scroll.getVerticalScrollBar().putClientProperty(FlatClientProperties.STYLE,""
+        scroll.getVerticalScrollBar().putClientProperty(FlatClientProperties.STYLE,""
                 + "trackArc:999;"
                 + "trackInsets: 3,3,3,3;"
                 + "thumbInsets: 3,3,3,3;"
                 + "background: $Table.background;");
          
-         table.getColumnModel().getColumn(2).setCellRenderer((JTable table1, Object value, boolean isSelected, boolean hasFocus, int row, int column) -> {
+        table.getColumnModel().getColumn(2).setCellRenderer((JTable table1, Object value, boolean isSelected, boolean hasFocus, int row, int column) -> {
             JLabel label = new JLabel(value != null ? value.toString() : "");
             label.setHorizontalAlignment(SwingConstants.LEFT); // Căn trái nội dung cột thứ 2
             if (isSelected) {
