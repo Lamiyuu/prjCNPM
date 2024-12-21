@@ -51,7 +51,7 @@ public class Home extends javax.swing.JFrame {
                     case 2 -> setForm(new KhoanThuPanel(taiKhoan));
                     case 3 -> setForm(new ThuPhiPanel(taiKhoan));
                     case 4 -> setForm(new ThongKeThuPhiPanel());
-                    case 5 -> setForm(new TuThienPanel());
+                    case 5 -> setForm(new TuThienPanel(taiKhoan));
                     case 6 -> setForm(new HoGiaDinhPanel(taiKhoan));
                     case 7 -> setForm(new KhieuNaiPanel(taiKhoan));
                     case 8 -> {
