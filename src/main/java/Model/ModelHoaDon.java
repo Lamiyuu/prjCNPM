@@ -108,8 +108,8 @@ public class ModelHoaDon extends Model {
         return new Object[] {
             rowNum,
             soPhong,
-            thang,
             formatter.format(tongSoTienThu) + " đ",
+            thang,
             formatter.format(soTienDaNop) + " đ",
             daDong ? "Đã đóng" : "Chưa đóng",
             this

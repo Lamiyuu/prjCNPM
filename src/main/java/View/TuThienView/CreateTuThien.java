@@ -47,6 +47,7 @@ public class CreateTuThien extends javax.swing.JPanel {
 
     }
     public ModelThuPhi getData() throws SQLException{
+        if(!txtSoTienThu.getText().matches("\\d+") || !datePicker.isDateSelected()) return null;
         ModelThuPhi thuPhi = new ModelThuPhi(
                 UUID.randomUUID().toString(), 
                 jComboBox2.getSelectedItem().toString(), 
