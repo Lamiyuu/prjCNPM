@@ -1,6 +1,6 @@
 package Model;
 
-import NhanKhauPackage.NguoiTrongPhong;
+import View.NhanKhauView.NguoiTrongPhong;
 import java.awt.Component;
 import java.awt.MouseInfo;
 import java.awt.Point;

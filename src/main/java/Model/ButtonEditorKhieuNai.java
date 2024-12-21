@@ -5,9 +5,9 @@
 package Model;
 
 import Database.Service;
-import KhieuNaiPackage.CheckKhieuNai;
-import KhieuNaiPackage.KhieuNaiPanel;
-import NhanKhauPackage.NguoiTrongPhong;
+import View.KhieuNaiView.CheckKhieuNai;
+import View.KhieuNaiView.KhieuNaiPanel;
+import View.NhanKhauView.NguoiTrongPhong;
 import java.awt.Component;
 import java.awt.MouseInfo;
 import java.awt.Point;

@@ -4,7 +4,7 @@
 
 package com.mycompany.app_project_se;
 
-import LoginFramePackage.LoginFrame;
+import View.LoginView.LoginFrame;
 import com.formdev.flatlaf.FlatLaf;
 import com.formdev.flatlaf.fonts.roboto.FlatRobotoFont;
 import com.formdev.flatlaf.themes.FlatMacLightLaf;
