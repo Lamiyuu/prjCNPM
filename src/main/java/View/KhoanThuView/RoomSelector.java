@@ -4,6 +4,7 @@
  */
 package View.KhoanThuView;
 
+import Database.Service;
 import Model.CheckBoxTableHeader;
 import com.formdev.flatlaf.FlatClientProperties;
 import java.awt.Color;
@@ -29,7 +30,7 @@ public class RoomSelector extends javax.swing.JFrame {
         return selectedCells;
     }
     
-    public RoomSelector() {
+    public RoomSelector(String maKhoanThu) {
         initComponents();
         panel.putClientProperty(FlatClientProperties.STYLE, ""
                 + "arc:25;"
@@ -39,7 +40,7 @@ public class RoomSelector extends javax.swing.JFrame {
 
         // Cài đặt Renderer cho JTable
         table.setDefaultRenderer(Object.class, new CustomCellRenderer());
-
+        markRoomsBasedOnMaKhoanThu(maKhoanThu);
         // Add MouseListener cho bảng để bắt sự kiện chọn ô
         table.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -98,6 +99,27 @@ public class RoomSelector extends javax.swing.JFrame {
         }
 
         table.repaint(); // Vẽ lại bảng
+    }
+    
+    public void markRoomsBasedOnMaKhoanThu(String maKhoanThu) {
+        // Lấy danh sách phòng từ cơ sở dữ liệu
+        Set<String> danhSachPhong = (new Service()).loadDanhSachPhong(maKhoanThu);
+
+        // Duyệt qua tất cả các ô trong bảng để đánh dấu ô nào có số phòng trong danh sách
+        for (int row = 0; row < table.getRowCount(); row++) {
+            for (int column = 1; column < table.getColumnCount(); column++) { // Bắt đầu từ cột 1 vì cột 0 là cột chọn
+                Object cellValue = table.getValueAt(row, column);
+                String cellContent = cellValue != null ? cellValue.toString() : "";
+
+                // Nếu số phòng trong ô nằm trong danh sách phòng đã tải, chọn ô đó
+                if (danhSachPhong.contains(cellContent)) {
+                    selectedCells.add(cellContent);
+                }
+            }
+        }
+
+        // Vẽ lại bảng để hiển thị sự thay đổi
+        table.repaint();
     }
 
 
@@ -163,12 +185,31 @@ public class RoomSelector extends javax.swing.JFrame {
             Class[] types = new Class [] {
                 java.lang.Boolean.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
             };
+            boolean[] canEdit = new boolean [] {
+                true, false, false, false, false, false, false, false, false, false
+            };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
             }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
         });
         jScrollPane1.setViewportView(table);
+        if (table.getColumnModel().getColumnCount() > 0) {
+            table.getColumnModel().getColumn(0).setResizable(false);
+            table.getColumnModel().getColumn(1).setResizable(false);
+            table.getColumnModel().getColumn(2).setResizable(false);
+            table.getColumnModel().getColumn(3).setResizable(false);
+            table.getColumnModel().getColumn(4).setResizable(false);
+            table.getColumnModel().getColumn(5).setResizable(false);
+            table.getColumnModel().getColumn(6).setResizable(false);
+            table.getColumnModel().getColumn(7).setResizable(false);
+            table.getColumnModel().getColumn(8).setResizable(false);
+            table.getColumnModel().getColumn(9).setResizable(false);
+        }
 
         javax.swing.GroupLayout panelLayout = new javax.swing.GroupLayout(panel);
         panel.setLayout(panelLayout);
@@ -236,7 +277,7 @@ public class RoomSelector extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new RoomSelector().setVisible(true);
+                new RoomSelector("").setVisible(true);
             }
         });
     }

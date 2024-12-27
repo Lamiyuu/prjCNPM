@@ -45,7 +45,7 @@ public class KhoanThuController {
             Notifications.getInstance().show(Notifications.Type.WARNING, "Chỉ có ADMIN mới sử dụng được chức năng này!");
             return;
         }
-        CreateKhoanThu create = new CreateKhoanThu();
+        CreateKhoanThu create = new CreateKhoanThu("");
         create.getController().loadData(service, null);
         DefaultOption option = new DefaultOption() {
             @Override
@@ -93,7 +93,7 @@ public class KhoanThuController {
         if (!list.isEmpty()) {
             if (list.size() == 1) {
                 ModelKhoanThu data = list.get(0);
-                CreateKhoanThu create = new CreateKhoanThu();
+                CreateKhoanThu create = new CreateKhoanThu(data.getID());
                 create.getController().loadData(service, data);
 
                 DefaultOption option = new DefaultOption() {
@@ -127,7 +127,7 @@ public class KhoanThuController {
                         service.edit(dataEdit);
 
                         pc.closePopup();
-                        Notifications.getInstance().show(Notifications.Type.SUCCESS, "Khoản thu đã được cập nhật thành công!");
+                        Notifications.getInstance().show(Notifications.Type.SUCCESS, "Khoản thu đã được cập nhật thành công, chú ý: phạm vi thu sẽ không thay đổi do chính sách!");
 
                         loadData(currentPage);
                         initPagination();

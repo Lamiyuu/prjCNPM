@@ -1,24 +1,7 @@
 package View.KhoanThuView;
 
 import Controller.CreateKhoanThuController;
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JComboBox;
-import javax.swing.JOptionPane;
-import Database.DatabaseConnection;
-import Database.Service;
-import Model.ModelKhoanThu;
-import Model.ModelLoaiKhoanThu;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.List;
-import Model.ButtonAction;
-import java.util.UUID;
 import javax.swing.JButton;
 import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
@@ -27,16 +10,16 @@ import javax.swing.JTextField;
 import raven.datetime.component.date.DatePicker;
 
 public class CreateKhoanThu extends javax.swing.JPanel {
-    
     private CreateKhoanThuController controller;
-    public CreateKhoanThu() {
+    
+    public CreateKhoanThu(String maKhoanThu) {
         initComponents();
         
         datePicker.setCloseAfterSelected(true);
         datePicker1.setCloseAfterSelected(true);
         datePicker.setEditor(txtNgayBatDauThu);
         datePicker1.setEditor(txtNgayKetThuc);
-        controller = new CreateKhoanThuController(this);
+        controller = new CreateKhoanThuController(this, maKhoanThu);
     }
     
     public void addControllerListener(CreateKhoanThuController controller) {
@@ -144,12 +127,6 @@ public class CreateKhoanThu extends javax.swing.JPanel {
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         jLabel6.setText("Mô tả");
 
-        ComboBox.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ComboBoxActionPerformed(evt);
-            }
-        });
-
         txtMoTa.setColumns(20);
         txtMoTa.setRows(5);
         jScrollPane1.setViewportView(txtMoTa);
@@ -157,11 +134,6 @@ public class CreateKhoanThu extends javax.swing.JPanel {
         jLabel7.setText("Thu theo");
 
         txtDonVi.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Hộ", "Số xe máy", "Số ô tô", "Đầu người", "Diện tích" }));
-        txtDonVi.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtDonViActionPerformed(evt);
-            }
-        });
 
         jLabel8.setText("Phạm vi thu");
 
@@ -242,14 +214,6 @@ public class CreateKhoanThu extends javax.swing.JPanel {
     
 
     
-    private void ComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ComboBoxActionPerformed
-        
-    }//GEN-LAST:event_ComboBoxActionPerformed
-
-    private void txtDonViActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDonViActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtDonViActionPerformed
-
 
             
 

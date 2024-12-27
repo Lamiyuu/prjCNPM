@@ -22,6 +22,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import static java.util.Collections.list;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
@@ -893,5 +894,31 @@ public class Service {
             // Ghi log lỗi
             logger.log(Level.SEVERE, "Lỗi khi thực thi truy vấn: " + query, e);
         }
+    }
+    
+    public Set<String> loadDanhSachPhong(String maKhoanThu) {
+        Set<String> danhSachPhong = new HashSet<>();
+        String query = "SELECT soPhong FROM chiu_phi WHERE maKhoanThu = ?"; // Truy vấn để lấy danh sách số phòng theo mã khoản thu
+        Logger logger = Logger.getLogger(RoomSelector.class.getName());
+
+        try (Connection con = DatabaseConnection.getConnection();
+             PreparedStatement p = con.prepareStatement(query)) {
+
+            p.setString(1, maKhoanThu);  // Gán mã khoản thu vào câu truy vấn
+
+            try (ResultSet rs = p.executeQuery()) {
+                // Duyệt qua các kết quả trả về và thêm số phòng vào Set
+                while (rs.next()) {
+                    String soPhong = rs.getString("soPhong");
+                    danhSachPhong.add(soPhong);
+                }
+            }
+
+            logger.log(Level.INFO, "Số phòng đã tải thành công: " + danhSachPhong.size());
+        } catch (SQLException e) {
+            logger.log(Level.SEVERE, "Lỗi khi truy vấn danh sách phòng", e);
+        }
+
+        return danhSachPhong;
     }
 }

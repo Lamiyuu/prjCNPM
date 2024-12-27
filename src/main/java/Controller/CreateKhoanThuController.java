@@ -8,7 +8,6 @@ import Database.DatabaseConnection;
 import Database.Service;
 import Model.ModelKhoanThu;
 import Model.ModelLoaiKhoanThu;
-import Model.ModelTaiKhoan;
 import View.KhoanThuView.CreateKhoanThu;
 import View.KhoanThuView.RoomSelector;
 import java.awt.event.ActionEvent;
@@ -20,6 +19,7 @@ import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 import javax.swing.JOptionPane;
 
@@ -30,16 +30,18 @@ import javax.swing.JOptionPane;
 public class CreateKhoanThuController {
     private final CreateKhoanThu view;
     private final Service service = new Service();
+    private Set<String> danhSachPhong;
     private int currentPage = -1;
     private RoomSelector roomSelector;
     private boolean danhRieng = false;
-
+    private String maKhoanThu="";
     public RoomSelector getRoomSelector() {
         return roomSelector;
     }
 
-    public CreateKhoanThuController(CreateKhoanThu view) {
+    public CreateKhoanThuController(CreateKhoanThu view, String maKhoanThu) {
         this.view = view;
+        this.maKhoanThu = maKhoanThu;
         view.addControllerListener(this);
     }
     
@@ -188,10 +190,10 @@ public class CreateKhoanThuController {
         danhRieng = true;
         // tạo một instance của RoomSelector
         if(roomSelector == null){
-            roomSelector = new RoomSelector();
+            roomSelector = new RoomSelector(maKhoanThu);
         }
         System.out.println("Hello");
-        // hiển thị JFrame
+        view.getTxtPhamVi().setText("Tùy chỉnh");
         roomSelector.setVisible(true);
     }
 
