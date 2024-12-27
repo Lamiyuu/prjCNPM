@@ -20,6 +20,7 @@ public class ModelKhoanThu extends Model {
     private String moTa;
     private String tenKhoanThu;
     private String donVi;
+    private boolean danhRieng;
 
     public String getTenKhoanThu() {
         return tenKhoanThu;
@@ -30,7 +31,7 @@ public class ModelKhoanThu extends Model {
     }
     
     
-    public ModelKhoanThu(String makhoanthu, String tenKhoanThu, ModelLoaiKhoanThu tenloaikhoanthu, Date ngaybatdauthu, int sotienthu, Date ngayketthuc, String mota, String donVi) {
+    public ModelKhoanThu(String makhoanthu, String tenKhoanThu, ModelLoaiKhoanThu tenloaikhoanthu, Date ngaybatdauthu, int sotienthu, Date ngayketthuc, String mota, String donVi, boolean danhRieng) {
         super();
         this.ID = makhoanthu;
         this.tenKhoanThu = tenKhoanThu;
@@ -40,8 +41,17 @@ public class ModelKhoanThu extends Model {
         this.ngayKetThuc = ngayketthuc;
         this.moTa = mota;
         this.donVi = donVi;
+        this.danhRieng = danhRieng;
     }
 
+    public boolean isDanhRieng() {
+        return danhRieng;
+    }
+
+    public void setDanhRieng(boolean danhRieng) {
+        this.danhRieng = danhRieng;
+    }
+    
     public String getDonVi() {
         return donVi;
     }
@@ -117,6 +127,8 @@ public class ModelKhoanThu extends Model {
                 return ID;
             case "donVi":
                 return donVi;
+            case "danhRieng":
+                return danhRieng;
             default:
                 throw new IllegalArgumentException("Unsupported column: " + columnName);
         }

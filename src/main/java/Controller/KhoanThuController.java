@@ -46,7 +46,7 @@ public class KhoanThuController {
             return;
         }
         CreateKhoanThu create = new CreateKhoanThu();
-        create.loadData(service, null);
+        create.getController().loadData(service, null);
         DefaultOption option = new DefaultOption() {
             @Override
             public boolean closeWhenClickOutside() {
@@ -58,7 +58,7 @@ public class KhoanThuController {
             if (i == 1) { // Nếu người dùng nhấn "Save"
                 try {
                     // Kiểm tra dữ liệu trước khi lưu
-                    ModelKhoanThu data = create.getData();
+                    ModelKhoanThu data = create.getController().getData();
                     if (data == null || data.getLoaiKhoanThu() == null) {
                         Notifications.getInstance().show(Notifications.Type.WARNING, "Vui lòng nhập đủ thông tin khoản thu!");
                         return;
@@ -66,6 +66,8 @@ public class KhoanThuController {
 
                     // Lưu dữ liệu
                     service.create(data);
+                    if(create.getController().getRoomSelector() != null && create.getController().getRoomSelector().getSelectedCells() != null)
+                        service.insertIntoChiuPhi(create.getController().getRoomSelector().getSelectedCells() , data.getID());
                     pc.closePopup();
                     Notifications.getInstance().show(Notifications.Type.SUCCESS, "Khoản thu mới đã được tạo");
 
@@ -76,7 +78,7 @@ public class KhoanThuController {
                     e.printStackTrace();
                     Notifications.getInstance().show(Notifications.Type.ERROR, "Đã có lỗi xảy ra trong quá trình tạo khoản thu!");
                 }
-            } else {
+            }else {
                 // Nếu người dùng nhấn "Cancel"
                 pc.closePopup();
             }
@@ -92,7 +94,7 @@ public class KhoanThuController {
             if (list.size() == 1) {
                 ModelKhoanThu data = list.get(0);
                 CreateKhoanThu create = new CreateKhoanThu();
-                create.loadData(service, data);
+                create.getController().loadData(service, data);
 
                 DefaultOption option = new DefaultOption() {
                     @Override
@@ -105,7 +107,7 @@ public class KhoanThuController {
                 GlassPanePopup.showPopup(new SimplePopupBorder(create, "Chỉnh sửa khoản thu [" + data.getLoaiKhoanThu() + "]", actions, (pc, i) -> {
                 if (i == 1) { // Nếu người dùng chọn "Update"
                     try {
-                        ModelKhoanThu dataEdit = create.getData();
+                        ModelKhoanThu dataEdit = create.getController().getData();
 
                         // Kiểm tra dữ liệu đầu vào, tránh null hoặc thiếu thông tin quan trọng
                         if (dataEdit == null || dataEdit.getLoaiKhoanThu() == null) {

@@ -10,6 +10,7 @@ import Model.ModelNhanKhau;
 import Model.ModelTaiKhoan;
 import Model.ModelThongBao;
 import Model.ModelThuPhi;
+import View.KhoanThuView.RoomSelector;
 import static java.nio.file.Files.list;
 import static java.rmi.Naming.list;
 import java.sql.Connection;
@@ -22,6 +23,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import static java.util.Collections.list;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -49,6 +51,7 @@ public class Service {
                     String mota = r.getString("moTa");
                     String tenkhoanthu = r.getString("tenKhoanThu");
                     String donVi = r.getString("donVi");
+                    boolean danhRieng = r.getBoolean("danhRieng");
                     ModelKhoanThu khoanThu = new ModelKhoanThu(
                         makhoanthu,
                         tenkhoanthu,
@@ -57,7 +60,8 @@ public class Service {
                         sotienthu,
                         ngayketthuc,
                         mota,
-                        donVi
+                        donVi,
+                        danhRieng
                     );
 
                     result.add((T) khoanThu); // Ép kiểu sang T
@@ -267,7 +271,7 @@ public class Service {
 
         // Kết nối và thực hiện truy vấn
         try (Connection con = DatabaseConnection.getConnection();
-             PreparedStatement p = con.prepareStatement(query)) {
+            PreparedStatement p = con.prepareStatement(query)) {
 
             // Nếu có tham số tìm kiếm, gán giá trị cho các dấu "?"
             if (searchInput != null && !searchInput.trim().isEmpty()) {
@@ -609,7 +613,7 @@ public class Service {
     private List<String> getColumnNames(Class<? extends Model> clazz) {
         switch (clazz.getSimpleName()) {
             case "ModelKhoanThu":
-                return List.of("maKhoanThu", "tenKhoanThu_ID", "tenKhoanThu", "soTienThu", "ngayBatDauThu", "ngayKetThuc", "moTa", "donVi");
+                return List.of("maKhoanThu", "tenKhoanThu_ID", "tenKhoanThu", "soTienThu", "ngayBatDauThu", "ngayKetThuc", "moTa", "donVi", "danhRieng");
             case "ModelLoaiKhoanThu":
                 return List.of("tenKhoanThu_ID", "tenKhoanThu_Name");
             case "ModelThongBao":
@@ -861,6 +865,33 @@ public class Service {
         } catch (SQLException e) {
             logger.log(Level.SEVERE, "Lỗi khi thực thi truy vấn: " + query, e);
             throw e;
+        }
+    }
+    
+    public void insertIntoChiuPhi(Set<String> danhSach, String maKhoanThu) {
+        String query = "INSERT INTO chiu_phi (ID, maKhoanThu, soPhong) VALUES (?, ?, ?)";
+        Logger logger = Logger.getLogger(RoomSelector.class.getName()); // 
+
+        try (Connection con = DatabaseConnection.getConnection();
+             PreparedStatement p = con.prepareStatement(query)) {
+            for (String soPhong : danhSach) {
+                // Tạo UUID mới cho mỗi bản ghi
+                String uuid = UUID.randomUUID().toString();
+
+                // Gán giá trị cho câu lệnh
+                p.setString(1, uuid);       // Gán UUID vào cột ID
+                p.setString(2, maKhoanThu); // Gán mã khoản thu
+                p.setString(3, soPhong);    // Gán số phòng
+                p.addBatch();               // Thêm vào batch để tối ưu hóa
+            }
+
+            // Thực thi batch
+            int[] results = p.executeBatch();
+            logger.log(Level.INFO, "Số bản ghi đã thêm: " + results.length);
+
+        } catch (SQLException e) {
+            // Ghi log lỗi
+            logger.log(Level.SEVERE, "Lỗi khi thực thi truy vấn: " + query, e);
         }
     }
 }

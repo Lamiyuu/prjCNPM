@@ -19,6 +19,7 @@ import com.itextpdf.text.pdf.PdfWriter;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
@@ -35,7 +36,7 @@ public class CreatePdf {
     public static void create(String soPhong,JTable table) throws IOException, DocumentException {
         
         // Đảm bảo đường dẫn chính xác từ thư mục resources
-        String fontPath = CreatePdf.class.getClassLoader().getResource("fonts/arial-unicode-ms.ttf").getPath();
+        String fontPath = Paths.get("src/main/resources/fonts/arial-unicode-ms.ttf").toAbsolutePath().toString();
         BaseFont unicodeFont = BaseFont.createFont(fontPath, BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
         Font font = new Font(unicodeFont, 14);
        
@@ -77,7 +78,7 @@ public class CreatePdf {
         p.setFont(font);
 
         String no = "1523";  // Mã số hóa đơn hoặc thông tin gì đó
-        p.add("BILL NI: " + no);  // Thêm số hóa đơn vào tiêu đề
+        p.add("BILL No." + no);  // Thêm số hóa đơn vào tiêu đề
         p.setAlignment(Element.ALIGN_CENTER);  // Căn giữa tiêu đề
         doc.add(p);  // Thêm vào tài liệu
         
@@ -88,7 +89,7 @@ public class CreatePdf {
         Date today = new Date(System.currentTimeMillis());
         SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
         // Thêm dòng "Ngày giờ" với font đã chỉ định
-        Paragraph p2 = new Paragraph("DATE AND TIME: " + df.format(today) , font);
+        Paragraph p2 = new Paragraph("Ngày: " + df.format(today) , font);
         doc.add(p2);
 
         doc.add(new Paragraph("\n"));

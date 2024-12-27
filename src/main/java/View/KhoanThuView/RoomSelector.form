@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Form version="1.3" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
+  <Properties>
+    <Property name="defaultCloseOperation" type="int" value="2"/>
+    <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+      <Color blue="ff" green="ff" red="ff" type="rgb"/>
+    </Property>
+    <Property name="resizable" type="boolean" value="false"/>
+  </Properties>
+  <SyntheticProperties>
+    <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
+    <SyntheticProperty name="generateCenter" type="boolean" value="false"/>
+  </SyntheticProperties>
+  <AuxValues>
+    <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
+    <AuxValue name="FormSettings_autoSetComponentName" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_generateFQN" type="java.lang.Boolean" value="true"/>
+    <AuxValue name="FormSettings_generateMnemonicsCode" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_i18nAutoMode" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_layoutCodeTarget" type="java.lang.Integer" value="1"/>
+    <AuxValue name="FormSettings_listenerGenerationStyle" type="java.lang.Integer" value="0"/>
+    <AuxValue name="FormSettings_variablesLocal" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_variablesModifier" type="java.lang.Integer" value="2"/>
+  </AuxValues>
+
+  <Layout>
+    <DimensionLayout dim="0">
+      <Group type="103" groupAlignment="0" attributes="0">
+          <Group type="102" alignment="0" attributes="0">
+              <Component id="panel" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+          </Group>
+      </Group>
+    </DimensionLayout>
+    <DimensionLayout dim="1">
+      <Group type="103" groupAlignment="0" attributes="0">
+          <Group type="102" alignment="0" attributes="0">
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="panel" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+          </Group>
+      </Group>
+    </DimensionLayout>
+  </Layout>
+  <SubComponents>
+    <Container class="javax.swing.JPanel" name="panel">
+      <Properties>
+        <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+          <Color blue="ff" green="ff" red="ff" type="rgb"/>
+        </Property>
+      </Properties>
+
+      <Layout>
+        <DimensionLayout dim="0">
+          <Group type="103" groupAlignment="0" attributes="0">
+              <Group type="102" alignment="0" attributes="0">
+                  <EmptySpace min="-2" pref="17" max="-2" attributes="0"/>
+                  <Component id="jScrollPane1" min="-2" pref="393" max="-2" attributes="0"/>
+                  <EmptySpace pref="34" max="32767" attributes="0"/>
+              </Group>
+          </Group>
+        </DimensionLayout>
+        <DimensionLayout dim="1">
+          <Group type="103" groupAlignment="0" attributes="0">
+              <Group type="102" alignment="0" attributes="0">
+                  <EmptySpace min="-2" pref="17" max="-2" attributes="0"/>
+                  <Component id="jScrollPane1" min="-2" pref="213" max="-2" attributes="0"/>
+                  <EmptySpace pref="27" max="32767" attributes="0"/>
+              </Group>
+          </Group>
+        </DimensionLayout>
+      </Layout>
+      <SubComponents>
+        <Container class="javax.swing.JScrollPane" name="jScrollPane1">
+          <AuxValues>
+            <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
+          </AuxValues>
+
+          <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
+          <SubComponents>
+            <Component class="javax.swing.JTable" name="table">
+              <Properties>
+                <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
+                  <Table columnCount="10" rowCount="9">
+                    <Column editable="true" title="Pick" type="java.lang.Boolean"/>
+                    <Column editable="true" title="1" type="java.lang.Object">
+                      <Data value="101"/>
+                      <Data value="201"/>
+                      <Data value="301"/>
+                      <Data value="401"/>
+                      <Data value="501"/>
+                      <Data value="601"/>
+                      <Data value="701"/>
+                      <Data value="801"/>
+                      <Data value="901"/>
+                    </Column>
+                    <Column editable="true" title="2" type="java.lang.Object">
+                      <Data value="102"/>
+                      <Data value="202"/>
+                      <Data value="302"/>
+                      <Data value="402"/>
+                      <Data value="502"/>
+                      <Data value="602"/>
+                      <Data value="702"/>
+                      <Data value="802"/>
+                      <Data value="902"/>
+                    </Column>
+                    <Column editable="true" title="3" type="java.lang.Object">
+                      <Data value="103"/>
+                      <Data value="203"/>
+                      <Data value="303"/>
+                      <Data value="403"/>
+                      <Data value="503"/>
+                      <Data value="603"/>
+                      <Data value="703"/>
+                      <Data value="803"/>
+                      <Data value="903"/>
+                    </Column>
+                    <Column editable="true" title="4" type="java.lang.Object">
+                      <Data value="104"/>
+                      <Data value="204"/>
+                      <Data value="304"/>
+                      <Data value="404"/>
+                      <Data value="504"/>
+                      <Data value="604"/>
+                      <Data value="704"/>
+                      <Data value="804"/>
+                      <Data value="904"/>
+                    </Column>
+                    <Column editable="true" title="5" type="java.lang.Object">
+                      <Data value="105"/>
+                      <Data value="205"/>
+                      <Data value="305"/>
+                      <Data value="405"/>
+                      <Data value="505"/>
+                      <Data value="605"/>
+                      <Data value="705"/>
+                      <Data value="805"/>
+                      <Data value="905"/>
+                    </Column>
+                    <Column editable="true" title="6" type="java.lang.Object">
+                      <Data value="106"/>
+                      <Data value="206"/>
+                      <Data value="306"/>
+                      <Data value="406"/>
+                      <Data value="506"/>
+                      <Data value="606"/>
+                      <Data value="706"/>
+                      <Data value="806"/>
+                      <Data value="906"/>
+                    </Column>
+                    <Column editable="true" title="7" type="java.lang.Object">
+                      <Data value="107"/>
+                      <Data value="207"/>
+                      <Data value="307"/>
+                      <Data value="407"/>
+                      <Data value="507"/>
+                      <Data value="607"/>
+                      <Data value="707"/>
+                      <Data value="807"/>
+                      <Data value="907"/>
+                    </Column>
+                    <Column editable="true" title="8" type="java.lang.Object">
+                      <Data value="108"/>
+                      <Data value="208"/>
+                      <Data value="308"/>
+                      <Data value="408"/>
+                      <Data value="508"/>
+                      <Data value="608"/>
+                      <Data value="708"/>
+                      <Data value="808"/>
+                      <Data value="908"/>
+                    </Column>
+                    <Column editable="true" title="9" type="java.lang.Object">
+                      <Data value="109"/>
+                      <Data value="209"/>
+                      <Data value="309"/>
+                      <Data value="409"/>
+                      <Data value="509"/>
+                      <Data value="609"/>
+                      <Data value="709"/>
+                      <Data value="809"/>
+                      <Data value="909"/>
+                    </Column>
+                  </Table>
+                </Property>
+                <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
+                  <TableColumnModel selectionModel="0">
+                    <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                      <Title/>
+                      <Editor/>
+                      <Renderer/>
+                    </Column>
+                    <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                      <Title/>
+                      <Editor/>
+                      <Renderer/>
+                    </Column>
+                    <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                      <Title/>
+                      <Editor/>
+                      <Renderer/>
+                    </Column>
+                    <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                      <Title/>
+                      <Editor/>
+                      <Renderer/>
+                    </Column>
+                    <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                      <Title/>
+                      <Editor/>
+                      <Renderer/>
+                    </Column>
+                    <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                      <Title/>
+                      <Editor/>
+                      <Renderer/>
+                    </Column>
+                    <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                      <Title/>
+                      <Editor/>
+                      <Renderer/>
+                    </Column>
+                    <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                      <Title/>
+                      <Editor/>
+                      <Renderer/>
+                    </Column>
+                    <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                      <Title/>
+                      <Editor/>
+                      <Renderer/>
+                    </Column>
+                    <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                      <Title/>
+                      <Editor/>
+                      <Renderer/>
+                    </Column>
+                  </TableColumnModel>
+                </Property>
+                <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
+                  <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
+                </Property>
+              </Properties>
+            </Component>
+          </SubComponents>
+        </Container>
+      </SubComponents>
+    </Container>
+  </SubComponents>
+</Form>

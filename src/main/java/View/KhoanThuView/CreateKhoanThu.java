@@ -1,5 +1,6 @@
 package View.KhoanThuView;
 
+import Controller.CreateKhoanThuController;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -18,9 +19,16 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 import Model.ButtonAction;
 import java.util.UUID;
+import javax.swing.JButton;
+import javax.swing.JFormattedTextField;
+import javax.swing.JLabel;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import raven.datetime.component.date.DatePicker;
 
 public class CreateKhoanThu extends javax.swing.JPanel {
-
+    
+    private CreateKhoanThuController controller;
     public CreateKhoanThu() {
         initComponents();
         
@@ -28,52 +36,66 @@ public class CreateKhoanThu extends javax.swing.JPanel {
         datePicker1.setCloseAfterSelected(true);
         datePicker.setEditor(txtNgayBatDauThu);
         datePicker1.setEditor(txtNgayKetThuc);
+        controller = new CreateKhoanThuController(this);
     }
     
-    //load các loại khoản thu vào combobox
-    public void loadData(Service service, ModelKhoanThu data) {
-        try {
-            // Lấy danh sách loại khoản thu
-            List<ModelLoaiKhoanThu> listLoaiKhoanThu = service.getAll(ModelLoaiKhoanThu.class, null);
-
-            // Kiểm tra danh sách không null
-            if (listLoaiKhoanThu != null) {
-                for (ModelLoaiKhoanThu pos : listLoaiKhoanThu) {
-                    ComboBox.addItem(pos);
-
-                    // Chọn mục phù hợp nếu có dữ liệu
-                    if (data != null && data.getLoaiKhoanThu() != null && data.getLoaiKhoanThu().getID() == pos.getID()) {
-                        ComboBox.setSelectedItem(pos);
-                    }
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Lỗi khi tải danh sách loại khoản thu!", "Lỗi", JOptionPane.ERROR_MESSAGE);
-        }
-
-        // Nếu có dữ liệu, thiết lập các trường
-        if (data != null) {
-            txtSoTienThu.setValue(data.getSoTienThu());
-            txtName.setText(data.getTenKhoanThu());
-            // Định dạng ngày
-            DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-
-            if (data.getNgayBatDauThu() != null) {
-                txtNgayBatDauThu.setText(dateFormat.format(data.getNgayBatDauThu()));
-            } else {
-                txtNgayBatDauThu.setText("");
-            }
-
-            if (data.getNgayKetThuc() != null) {
-                txtNgayKetThuc.setText(dateFormat.format(data.getNgayKetThuc()));
-            } else {
-                txtNgayKetThuc.setText("");
-            }
-
-            txtMoTa.setText(data.getMoTa());
-        }
+    public void addControllerListener(CreateKhoanThuController controller) {
+        buttonPhamVi.addActionListener(controller::buttonPhamViActionPerformed); 
     }
+
+    public CreateKhoanThuController getController() {
+        return controller;
+    }
+    
+    public JComboBox<Object> getComboBox() {
+        return ComboBox;
+    }
+
+    public JTextArea getTxtMoTa() {
+        return txtMoTa;
+    }
+
+    public JTextField getTxtName() {
+        return txtName;
+    }
+
+    public JFormattedTextField getTxtNgayBatDauThu() {
+        return txtNgayBatDauThu;
+    }
+
+    public JFormattedTextField getTxtNgayKetThuc() {
+        return txtNgayKetThuc;
+    }
+
+    public JLabel getTxtPhamVi() {
+        return txtPhamVi;
+    }
+
+    public JFormattedTextField getTxtSoTienThu() {
+        return txtSoTienThu;
+    }
+
+    public DatePicker getDatePicker() {
+        return datePicker;
+    }
+
+    public DatePicker getDatePicker1() {
+        return datePicker1;
+    }
+
+    public JComboBox<String> getTxtDonVi() {
+        return txtDonVi;
+    }
+
+    public JButton getButtonPhamVi() {
+        return buttonPhamVi;
+    }
+    
+    
+    
+    
+    
+    
     
     
     
@@ -98,6 +120,9 @@ public class CreateKhoanThu extends javax.swing.JPanel {
         txtNgayKetThuc = new javax.swing.JFormattedTextField();
         jLabel7 = new javax.swing.JLabel();
         txtDonVi = new javax.swing.JComboBox<>();
+        jLabel8 = new javax.swing.JLabel();
+        txtPhamVi = new javax.swing.JLabel();
+        buttonPhamVi = new javax.swing.JButton();
 
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         jLabel1.setText("Tên khoản thu");
@@ -131,12 +156,18 @@ public class CreateKhoanThu extends javax.swing.JPanel {
 
         jLabel7.setText("Thu theo");
 
-        txtDonVi.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Hộ", "Số xe máy", "Số ô tô", "Đầu người" }));
+        txtDonVi.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Hộ", "Số xe máy", "Số ô tô", "Đầu người", "Diện tích" }));
         txtDonVi.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtDonViActionPerformed(evt);
             }
         });
+
+        jLabel8.setText("Phạm vi thu");
+
+        txtPhamVi.setText("Tất cả phòng");
+
+        buttonPhamVi.setText("Sửa");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -147,14 +178,19 @@ public class CreateKhoanThu extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel7)
                     .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.TRAILING)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(txtPhamVi, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(buttonPhamVi))
                     .addComponent(txtSoTienThu)
                     .addComponent(txtName)
                     .addComponent(jScrollPane1)
@@ -177,6 +213,11 @@ public class CreateKhoanThu extends javax.swing.JPanel {
                     .addComponent(ComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel8)
+                    .addComponent(txtPhamVi)
+                    .addComponent(buttonPhamVi))
+                .addGap(6, 6, 6)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtSoTienThu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -198,65 +239,7 @@ public class CreateKhoanThu extends javax.swing.JPanel {
                 .addGap(27, 27, 27))
         );
     }// </editor-fold>//GEN-END:initComponents
-    //Chuyển dữ liệu thành đối tượng ModelKhoanThu
-    public ModelKhoanThu getData() {
-        // Kiểm tra tên khoản thu không thể trống
-        if (txtName.getText().trim().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Tên khoản thu không thể trống!", "Cảnh báo", JOptionPane.WARNING_MESSAGE);
-            return null;
-        }
-
-        // Kiểm tra số tiền thu không thể trống và lớn hơn 0
-        if (txtSoTienThu.getText().trim().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Số tiền thu không thể trống!", "Cảnh báo", JOptionPane.WARNING_MESSAGE);
-            return null;
-        }
-
-        int soTienThu;
-        try {
-            // Kiểm tra nếu không phải là số hợp lệ
-            soTienThu = Integer.parseInt(txtSoTienThu.getText().trim().replace(",", ""));
-            if (soTienThu <= 0) {
-                JOptionPane.showMessageDialog(this, "Số tiền thu phải lớn hơn 0!", "Cảnh báo", JOptionPane.WARNING_MESSAGE);
-                return null;
-            }
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, "Số tiền thu không hợp lệ!", "Cảnh báo", JOptionPane.WARNING_MESSAGE);
-            return null;
-        }
-
-        // Kiểm tra loại khoản thu
-        Object selectedItem = ComboBox.getSelectedItem();
-        ModelLoaiKhoanThu loaiKhoanThu = null;
-        if (selectedItem instanceof ModelLoaiKhoanThu) {
-            loaiKhoanThu = (ModelLoaiKhoanThu) selectedItem;
-        } else if (selectedItem instanceof String) {
-            loaiKhoanThu = searchLoaiKhoanThuFromDatabase((String) selectedItem);
-            if (loaiKhoanThu == null) {
-                JOptionPane.showMessageDialog(this, "Không tìm thấy loại khoản thu!", "Cảnh báo", JOptionPane.WARNING_MESSAGE);
-                return null;
-            }
-        }
-
-        // Lấy dữ liệu ngày bắt đầu và ngày kết thúc
-        Date sqlDate = Date.valueOf("1990-01-01");
-        Date ngayBatDauThu = datePicker.isDateSelected() ? Date.valueOf(datePicker.getSelectedDate()) : sqlDate;
-        Date ngayKetThuc = datePicker1.isDateSelected() ? Date.valueOf(datePicker1.getSelectedDate()) : sqlDate;
-
-        // Kiểm tra ngày kết thúc phải sau ngày bắt đầu
-        if (ngayKetThuc.before(ngayBatDauThu)) {
-            JOptionPane.showMessageDialog(this, "Ngày kết thúc phải sau ngày bắt đầu!", "Cảnh báo", JOptionPane.WARNING_MESSAGE);
-            return null;
-        }
-
-        // Lấy dữ liệu mô tả và đơn vị
-        String tenKhoanThu = txtName.getText().trim();
-        String moTa = txtMoTa.getText().trim();
-        String donVi = txtDonVi.getSelectedItem().toString();
-
-        // Tạo và trả về đối tượng ModelKhoanThu
-        return new ModelKhoanThu(UUID.randomUUID().toString(), tenKhoanThu, loaiKhoanThu, ngayBatDauThu, soTienThu, ngayKetThuc, moTa, donVi);
-    }
+    
 
     
     private void ComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ComboBoxActionPerformed
@@ -266,50 +249,13 @@ public class CreateKhoanThu extends javax.swing.JPanel {
     private void txtDonViActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDonViActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtDonViActionPerformed
-private ModelLoaiKhoanThu searchLoaiKhoanThuFromDatabase(String tenKhoanThu) {
-    Connection con = null;
-    PreparedStatement p = null;
-    ResultSet rs = null;
-    try {
-        // Sử dụng phương thức getConnection() để lấy kết nối
-        con = DatabaseConnection.getConnection();
 
-        // Câu truy vấn SQL
-        String query = "SELECT * FROM `loai_khoan_thu` WHERE `tenKhoanThu_Name` = ?";
-
-        // Chuẩn bị câu truy vấn
-        p = con.prepareStatement(query);
-        p.setString(1, tenKhoanThu);  // Thiết lập giá trị tham số trong câu truy vấn
-
-        // Thực thi truy vấn
-        rs = p.executeQuery();
-
-        // Nếu có kết quả trả về
-        if (rs.next()) {
-            // Giả sử ModelLoaiKhoanThu có constructor nhận id và name
-            return new ModelLoaiKhoanThu(rs.getString("tenKhoanThu_ID"), rs.getString("tenKhoanThu_Name"));
-        }
-    } catch (SQLException ex) {
-        // Nếu có lỗi xảy ra trong quá trình truy vấn
-        ex.printStackTrace();
-        JOptionPane.showMessageDialog(null, "Lỗi khi truy vấn cơ sở dữ liệu!", "Lỗi", JOptionPane.ERROR_MESSAGE);
-    } finally {
-        // Đảm bảo đóng ResultSet, PreparedStatement, và Connection trong khối finally
-        try {
-            if (rs != null) rs.close();
-            if (p != null) p.close();
-            DatabaseConnection.closeConnection(con);
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
-    }
-    return null; // Không tìm thấy loại khoản thu
-}    
 
             
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<Object> ComboBox;
+    private javax.swing.JButton buttonPhamVi;
     private raven.datetime.component.date.DatePicker datePicker;
     private raven.datetime.component.date.DatePicker datePicker1;
     private javax.swing.JLabel jLabel1;
@@ -319,12 +265,14 @@ private ModelLoaiKhoanThu searchLoaiKhoanThuFromDatabase(String tenKhoanThu) {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JComboBox<String> txtDonVi;
     private javax.swing.JTextArea txtMoTa;
     private javax.swing.JTextField txtName;
     private javax.swing.JFormattedTextField txtNgayBatDauThu;
     private javax.swing.JFormattedTextField txtNgayKetThuc;
+    private javax.swing.JLabel txtPhamVi;
     private javax.swing.JFormattedTextField txtSoTienThu;
     // End of variables declaration//GEN-END:variables
 }
